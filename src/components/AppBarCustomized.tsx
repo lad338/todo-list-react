@@ -1,18 +1,19 @@
 import React from 'react'
 import AppBar from '@mui/material/AppBar'
 import Container from '@mui/material/Container'
-import { TitleBar } from './TitleBar'
-import { SearchBar } from './SearchBar'
+import { UpperBar } from './UpperBar'
+import { LowerBar } from './LowerBar'
 
 export const AppBarCustomized: React.FC = () => {
   return (
-    <AppBar position="sticky">
+    <AppBar>
       <Container
         className="app-bar-container"
-        style={{ flexDirection: 'column', display: 'flex' }}
+        sx={{ flexDirection: 'column', display: 'flex' }}
+        maxWidth="xl"
       >
-        <TitleBar />
-        <SearchBar />
+        <UpperBar />
+        <LowerBar />
       </Container>
     </AppBar>
   )

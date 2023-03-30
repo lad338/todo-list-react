@@ -1,14 +1,14 @@
 import React from 'react'
-import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
-export const TitleBar: React.FC = () => {
+export const UpperBarWide: React.FC = () => {
   return (
-    <Container
-      className="title-bar-container"
-      style={{ flexDirection: 'row', display: 'flex' }}
+    <Box
+      width="100%"
+      sx={{ display: { xs: 'none', md: 'flex' }, flexDirection: 'row' }}
     >
       <Typography variant="h2" sx={{ flexGrow: 1 }}>
         Marvelous v2.0
@@ -24,6 +24,6 @@ export const TitleBar: React.FC = () => {
       >
         Delete all tasks
       </Button>
-    </Container>
+    </Box>
   )
 }

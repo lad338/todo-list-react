@@ -1,22 +1,28 @@
 import React from 'react'
-import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-
-export const SearchBar: React.FC = () => {
+export const LowerBarWide: React.FC = () => {
   return (
-    <Container
-      className="search-bar-container"
-      style={{ flexDirection: 'row', display: 'flex' }}
+    <Box
+      width="100%"
+      sx={{
+        display: { xs: 'none', md: 'flex' },
+        flexDirection: 'row',
+      }}
     >
       <Box
         className="add-item-container"
         style={{ flexDirection: 'row', display: 'flex', flexGrow: 1 }}
       >
         <form>
-          <TextField id="filled-basic" label="Add item" variant="filled" />
+          <TextField
+            id="filled-basic"
+            label="Add item"
+            variant="filled"
+            sx={{ width: 325 }}
+          />
           <Button
             sx={{
               height: '100%',
@@ -30,7 +36,9 @@ export const SearchBar: React.FC = () => {
           </Button>
         </form>
       </Box>
-      <TextField id="filled-basic" label="Search.." variant="filled" />
-    </Container>
+      <Box>
+        <TextField id="filled-basic" label="Search.." variant="filled" />
+      </Box>
+    </Box>
   )
 }
