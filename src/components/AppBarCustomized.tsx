@@ -6,7 +6,7 @@ import { LowerBar } from './LowerBar'
 
 export const AppBarCustomized: React.FC = () => {
   return (
-    <AppBar>
+    <AppBar sx={{ position: 'sticky' }}>
       <Container
         className="app-bar-container"
         sx={{ flexDirection: 'column', display: 'flex' }}

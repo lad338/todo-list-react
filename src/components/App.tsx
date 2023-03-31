@@ -1,7 +1,7 @@
 import React from 'react'
-import Container from '@mui/material/Container'
 import { AppBarCustomized } from './AppBarCustomized'
 import { createTheme, ThemeProvider } from '@mui/material'
+import { ListContainer } from './ListContainer'
 
 const theme = createTheme({
   breakpoints: {
@@ -19,7 +19,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <AppBarCustomized />
-        <Container></Container>
+        <ListContainer />
       </div>
     </ThemeProvider>
   )
