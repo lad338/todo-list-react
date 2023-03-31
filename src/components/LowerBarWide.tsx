@@ -24,6 +24,7 @@ export const LowerBarWide: React.FC = () => {
             sx={{ width: 325 }}
           />
           <Button
+            type="submit"
             sx={{
               height: '100%',
               color: '#fefefe',

@@ -6,22 +6,24 @@ import IconButton from '@mui/material/IconButton'
 
 export const UpperBarSmall: React.FC = () => {
   return (
-    <Box
-      width="100%"
-      sx={{
-        display: { xs: 'flex', md: 'none' },
-        flexDirection: 'row',
-      }}
-    >
-      <TextField
-        sx={{ flexGrow: 1 }}
-        id="filled-basic"
-        label="Add Item"
-        variant="filled"
-      />
-      <IconButton sx={{ color: '#fefefe', width: 56 }}>
-        <SendIcon />
-      </IconButton>
-    </Box>
+    <form>
+      <Box
+        width="100%"
+        sx={{
+          display: { xs: 'flex', md: 'none' },
+          flexDirection: 'row',
+        }}
+      >
+        <TextField
+          sx={{ flexGrow: 1 }}
+          id="filled-basic"
+          label="Add Item"
+          variant="filled"
+        />
+        <IconButton sx={{ color: '#fefefe', width: 56 }}>
+          <SendIcon />
+        </IconButton>
+      </Box>
+    </form>
   )
 }
