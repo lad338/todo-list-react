@@ -29,6 +29,7 @@ export const ListContainer: React.FC = () => {
             }
           >
             <Item title={'Lorem Ipsum'} isDone={false} />
+            <Item title={'Lorem Ipsum 2'} isDone={false} />
           </List>
         </Box>
         <Box className="done-list-container" sx={{ width: '48%' }}>

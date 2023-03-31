@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
@@ -16,13 +16,21 @@ import TextField from '@mui/material/TextField'
 export const Item: React.FC<Props> = (props) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const updateTextField = useRef<HTMLInputElement>(null)
 
   const handleExpandClick = () => {
     setIsExpanded(!isExpanded)
   }
 
   const handleEditToggle = () => {
+    const currentEdit = isEdit
     setIsEdit(!isEdit)
+    if (!currentEdit) {
+      //Have to set time out for focus
+      setTimeout(() => {
+        updateTextField.current?.focus()
+      }, 100)
+    }
   }
 
   return (
@@ -50,6 +58,7 @@ export const Item: React.FC<Props> = (props) => {
               variant="filled"
               placeholder={props.title}
               defaultValue={props.title}
+              inputRef={updateTextField}
             />
           )}
 
