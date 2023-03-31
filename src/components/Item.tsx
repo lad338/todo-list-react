@@ -12,6 +12,7 @@ import DoneIcon from '@mui/icons-material/Done'
 import ClearIcon from '@mui/icons-material/Clear'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
+import TaskItem from '../models/TaskItem'
 
 export const Item: React.FC<Props> = (props) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -40,24 +41,20 @@ export const Item: React.FC<Props> = (props) => {
           className="item-upper-container"
           sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}
         >
-          <ListItemIcon>
-            <Checkbox
-              edge="start"
-              checked={props.isDone}
-              tabIndex={-1}
-              disableRipple
-            />
+          <ListItemIcon sx={{ marginRight: -2 }}>
+            <Checkbox edge="start" checked={props.item.isDone} tabIndex={-1} />
           </ListItemIcon>
           {!isEdit && (
-            <Typography sx={{ marginY: 'auto' }}>{props.title}</Typography>
+            <Typography sx={{ marginY: 'auto' }}>{props.item.title}</Typography>
           )}
           {isEdit && (
             <TextField
-              sx={{ marginY: 'auto', height: 50 }}
+              sx={{ marginY: 'auto' }}
               fullWidth={true}
               variant="filled"
-              placeholder={props.title}
-              defaultValue={props.title}
+              size="small"
+              placeholder={props.item.title}
+              defaultValue={props.item.title}
               inputRef={updateTextField}
             />
           )}
@@ -99,7 +96,7 @@ export const Item: React.FC<Props> = (props) => {
                     aria-label="cancel"
                     edge="start"
                     onClick={handleEditToggle}
-                    sx={{ marginX: 2 }}
+                    sx={{ marginLeft: 0 }}
                   >
                     <ClearIcon />
                   </IconButton>
@@ -117,6 +114,5 @@ export const Item: React.FC<Props> = (props) => {
 }
 
 type Props = {
-  isDone: boolean
-  title: string
+  item: TaskItem
 }

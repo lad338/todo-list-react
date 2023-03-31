@@ -19,6 +19,7 @@ export const UpperBarSmall: React.FC = () => {
           id="filled-basic"
           label="Add Item"
           variant="filled"
+          size="small"
         />
         <IconButton sx={{ color: '#fefefe', width: 56 }}>
           <SendIcon />
