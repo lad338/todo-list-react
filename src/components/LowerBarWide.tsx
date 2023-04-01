@@ -1,14 +1,33 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import Button from '@mui/material/Button'
-import { useAppDispatch } from '../hooks/redux'
+import {
+  loadItems,
+  selectSearchQuery,
+  setSearchQuery,
+  useAppDispatch,
+  useAppSelector,
+} from '../hooks/redux'
 import { addItemAndRefresh } from '../hooks/app'
+import { debounce } from '../utils/input'
 export const LowerBarWide: React.FC = () => {
   const dispatch = useAppDispatch()
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
     await addItemAndRefresh(dispatch, event)
+  }
+
+  const search = useCallback(
+    debounce(async (q: string) => {
+      dispatch(setSearchQuery(q))
+      dispatch(loadItems({ search: q }))
+    }, 300),
+    []
+  )
+
+  const handleSearch = (e: any) => {
+    search(e.target.value)
   }
 
   return (
@@ -45,7 +64,7 @@ export const LowerBarWide: React.FC = () => {
         </form>
       </Box>
       <Box>
-        <TextField id="filled-basic" label="Search.." variant="filled" />
+        <TextField label="Search.." variant="filled" onKeyUp={handleSearch} />
       </Box>
     </Box>
   )

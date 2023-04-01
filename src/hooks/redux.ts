@@ -17,12 +17,16 @@ export const selectDoneList = (state: RootState) =>
   state.appState.taskLists.doneList
 export const selectDeleteDialog = (state: RootState) =>
   state.appState.isDeleteDialogOpen
+export const selectSearchQuery = (state: RootState) => state.appState.search
 export const appStateSlice = createSlice({
   name: 'app',
   initialState: initialAppState,
   reducers: {
     setDeleteDialogOpen: (state, action: PayloadAction<boolean>) => {
       state.isDeleteDialogOpen = action.payload
+    },
+    setSearchQuery: (state, action: PayloadAction<string | undefined>) => {
+      state.search = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -37,7 +41,7 @@ export const appStateSlice = createSlice({
   },
 })
 
-export const { setDeleteDialogOpen } = appStateSlice.actions
+export const { setDeleteDialogOpen, setSearchQuery } = appStateSlice.actions
 
 export const loadItems = createAsyncThunk(
   'appState/loadItems',
