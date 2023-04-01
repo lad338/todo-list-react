@@ -5,7 +5,6 @@ import SendIcon from '@mui/icons-material/Send'
 import IconButton from '@mui/material/IconButton'
 import { useAppDispatch } from '../hooks/redux'
 import { addItemAndRefresh } from '../hooks/app'
-import { inputFieldStyle } from '../styles/textField'
 
 export const UpperBarSmall: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -28,8 +27,6 @@ export const UpperBarSmall: React.FC = () => {
           label="Add Item"
           variant="filled"
           size="small"
-          InputProps={inputFieldStyle}
-          InputLabelProps={inputFieldStyle}
         />
         <IconButton sx={{ color: '#fefefe', width: 48 }} type="submit">
           <SendIcon />

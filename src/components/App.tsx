@@ -3,21 +3,16 @@ import { AppBarCustomized } from './AppBarCustomized'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { ListContainer } from './ListContainer'
 import { DeleteAllDialog } from './DeleteAllDialog'
+import CssBaseline from '@mui/material/CssBaseline'
+import { breakpointStyle } from '../styles/breakpoint'
 
 const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 450,
-      md: 700,
-      lg: 1450,
-      xl: 1650,
-    },
-  },
+  ...breakpointStyle,
 })
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <div className="App">
         <DeleteAllDialog />
         <AppBarCustomized />

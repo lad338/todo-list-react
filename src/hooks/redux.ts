@@ -52,6 +52,7 @@ export const store = configureStore({
   reducer: {
     appState: appStateSlice.reducer,
   },
+  devTools: process.env.NODE_ENV !== 'production',
 })
 
 export type AppDispatch = typeof store.dispatch
