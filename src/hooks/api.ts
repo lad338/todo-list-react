@@ -28,7 +28,7 @@ export const getItems = async (
 }
 
 export const deleteAllItems = async () => {
-  const result = await fetch(`http://localhost:8000/items`, {
+  await fetch(`http://localhost:8000/items`, {
     method: 'DELETE',
   })
 }

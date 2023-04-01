@@ -6,9 +6,10 @@ import { loadItems, useAppDispatch } from '../hooks/redux'
 
 export const ListContainer: React.FC = () => {
   const dispatch = useAppDispatch()
+
   useEffect(() => {
     dispatch(loadItems({}))
-  }, [])
+  }, [dispatch])
 
   return (
     <Container className="content-container" maxWidth="xl">

@@ -3,8 +3,14 @@ import Box from '@mui/material/Box'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import { setDeleteDialogOpen, useAppDispatch } from '../hooks/redux'
 
 export const UpperBarWide: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const handleDeleteClick = () => {
+    dispatch(setDeleteDialogOpen(true))
+  }
+
   return (
     <Box
       width="100%"
@@ -21,6 +27,7 @@ export const UpperBarWide: React.FC = () => {
         }}
         variant="outlined"
         startIcon={<DeleteIcon />}
+        onClick={handleDeleteClick}
       >
         Delete all tasks
       </Button>

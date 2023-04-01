@@ -2,6 +2,7 @@ import React from 'react'
 import { AppBarCustomized } from './AppBarCustomized'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { ListContainer } from './ListContainer'
+import { DeleteAllDialog } from './DeleteAllDialog'
 
 const theme = createTheme({
   breakpoints: {
@@ -14,10 +15,11 @@ const theme = createTheme({
     },
   },
 })
-function App() {
+const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
+        <DeleteAllDialog />
         <AppBarCustomized />
         <ListContainer />
       </div>
