@@ -18,6 +18,9 @@ export const selectDoneList = (state: RootState) =>
 export const selectDeleteDialog = (state: RootState) =>
   state.appState.isDeleteDialogOpen
 export const selectSearchQuery = (state: RootState) => state.appState.search
+export const selectHasMore = (state: RootState) => state.appState.todoHasMore
+export const selectSkip = (state: RootState) => state.appState.todoSkip
+
 export const appStateSlice = createSlice({
   name: 'app',
   initialState: initialAppState,
@@ -28,19 +31,33 @@ export const appStateSlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string | undefined>) => {
       state.search = action.payload
     },
+    setSkip: (state, action: PayloadAction<number>) => {
+      state.todoSkip = action.payload
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadItems.pending, () => {
-      console.log('loading items')
-    })
+    builder.addCase(loadItems.pending, () => {})
     builder.addCase(loadItems.fulfilled, (state, action) => {
       state.taskLists.doneList = action.payload.doneList
+
+      state.taskLists.todoList = [
+        ...state.taskLists.todoList,
+        ...action.payload.todoList,
+      ]
+
+      state.todoHasMore = action.payload.hasMore
+    })
+    builder.addCase(initItems.pending, () => {})
+    builder.addCase(initItems.fulfilled, (state, action) => {
+      state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = action.payload.todoList
+      state.todoHasMore = action.payload.hasMore
     })
   },
 })
 
-export const { setDeleteDialogOpen, setSearchQuery } = appStateSlice.actions
+export const { setDeleteDialogOpen, setSearchQuery, setSkip } =
+  appStateSlice.actions
 
 export const loadItems = createAsyncThunk(
   'appState/loadItems',
@@ -48,6 +65,10 @@ export const loadItems = createAsyncThunk(
     return await getItems(query.search, query.skip)
   }
 )
+
+export const initItems = createAsyncThunk('appState/initItems', async () => {
+  return await getItems()
+})
 export const store = configureStore({
   reducer: {
     appState: appStateSlice.reducer,

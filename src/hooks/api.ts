@@ -1,15 +1,16 @@
-import { TaskLists } from '../models/TaskLists'
+import GetItemsResponse from '../models/GetItemsResponse'
 
 export const getItems = async (
   search?: string,
   skip?: number
-): Promise<TaskLists> => {
+): Promise<GetItemsResponse> => {
   const result = await fetch(
     `http://localhost:8000/items?title=${search || ''}&skip=${skip || ''}`,
     {}
   )
   const resultJson = await result.json()
   return {
+    hasMore: resultJson.hasMore,
     todoList: resultJson.undone.map((it: { _id: string; title: string }) => {
       return {
         id: it._id,

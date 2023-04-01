@@ -4,6 +4,8 @@ export type AppState = {
   taskLists: TaskLists
   isDeleteDialogOpen: boolean
   search?: string
+  todoHasMore: boolean
+  todoSkip: number
 }
 
 export const initialAppState: AppState = {
@@ -12,4 +14,6 @@ export const initialAppState: AppState = {
     todoList: [],
   },
   isDeleteDialogOpen: false,
+  todoHasMore: false,
+  todoSkip: 0,
 }
