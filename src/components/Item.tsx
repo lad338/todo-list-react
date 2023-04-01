@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { FormEvent, useRef, useState } from 'react'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
@@ -41,15 +41,18 @@ export const Item: React.FC<Props> = (props) => {
     }
   }
 
-  const handleDoneItem = async (id: string, isDone: boolean) => {
-    await doneItem(id, isDone)
+  const handleDoneItem = async () => {
+    await doneItem(props.item.id, !props.item.isDone)
     dispatch(loadItems({}))
   }
 
-  const handleUpdateItemTitle = async (id: string, title: string) => {
+  const handleUpdateItemTitle = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const title = (formData.get('update-title') || '').toString().trim()
     if (title !== '') {
       if (title !== props.item.title) {
-        await updateItemTitle(id, title)
+        await updateItemTitle(props.item.id, title)
         dispatch(loadItems({}))
       }
       handleEditToggle()
@@ -58,15 +61,7 @@ export const Item: React.FC<Props> = (props) => {
 
   return (
     <ListItem sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <form
-        style={{ width: '100%' }}
-        onSubmit={async (e) => {
-          e.preventDefault()
-          const formData = new FormData(e.currentTarget)
-          const title = (formData.get('update-title') || '').toString().trim()
-          await handleUpdateItemTitle(props.item.id, title)
-        }}
-      >
+      <form style={{ width: '100%' }} onSubmit={handleUpdateItemTitle}>
         <Box
           className="item-upper-container"
           sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}
@@ -76,9 +71,7 @@ export const Item: React.FC<Props> = (props) => {
               edge="start"
               checked={props.item.isDone}
               tabIndex={-1}
-              onClick={async () => {
-                await handleDoneItem(props.item.id, !props.item.isDone)
-              }}
+              onClick={handleDoneItem}
             />
           </ListItemIcon>
           {!isEdit && (
