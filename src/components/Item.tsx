@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import TaskItem from '../models/TaskItem'
 import { loadItems, useAppDispatch } from '../hooks/redux'
-import { doneItem } from '../hooks/api'
+import { doneItem, updateItemTitle } from '../hooks/api'
 
 export const Item: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
@@ -25,6 +25,9 @@ export const Item: React.FC<Props> = (props) => {
 
   const handleExpandClick = () => {
     setIsExpanded(!isExpanded)
+    if (isEdit) {
+      handleEditToggle()
+    }
   }
 
   const handleEditToggle = () => {
@@ -43,9 +46,27 @@ export const Item: React.FC<Props> = (props) => {
     dispatch(loadItems({}))
   }
 
+  const handleUpdateItemTitle = async (id: string, title: string) => {
+    if (title !== '') {
+      if (title !== props.item.title) {
+        await updateItemTitle(id, title)
+        dispatch(loadItems({}))
+      }
+      handleEditToggle()
+    }
+  }
+
   return (
     <ListItem sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <form style={{ width: '100%' }}>
+      <form
+        style={{ width: '100%' }}
+        onSubmit={async (e) => {
+          e.preventDefault()
+          const formData = new FormData(e.currentTarget)
+          const title = (formData.get('update-title') || '').toString().trim()
+          await handleUpdateItemTitle(props.item.id, title)
+        }}
+      >
         <Box
           className="item-upper-container"
           sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}
@@ -65,6 +86,7 @@ export const Item: React.FC<Props> = (props) => {
           )}
           {isEdit && (
             <TextField
+              name="update-title"
               sx={{ marginY: 'auto' }}
               fullWidth={true}
               variant="filled"
