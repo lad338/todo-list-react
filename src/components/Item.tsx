@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import TaskItem from '../models/TaskItem'
 import { loadItems, useAppDispatch } from '../hooks/redux'
-import { doneItem, updateItemTitle } from '../hooks/api'
+import { deleteOne, doneItem, updateItemTitle } from '../hooks/api'
 
 export const Item: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
@@ -57,6 +57,11 @@ export const Item: React.FC<Props> = (props) => {
       }
       handleEditToggle()
     }
+  }
+
+  const handleDeleteItem = async () => {
+    await deleteOne(props.item.id)
+    dispatch(loadItems({}))
   }
 
   return (
@@ -134,7 +139,11 @@ export const Item: React.FC<Props> = (props) => {
                 </>
               )}
             </Box>
-            <IconButton aria-label="delete" edge="end">
+            <IconButton
+              aria-label="delete"
+              edge="end"
+              onClick={handleDeleteItem}
+            >
               <DeleteIcon />
             </IconButton>
           </Box>

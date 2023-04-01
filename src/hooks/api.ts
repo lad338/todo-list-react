@@ -33,6 +33,12 @@ export const deleteAllItems = async () => {
   })
 }
 
+export const deleteOne = async (id: string) => {
+  await fetch(`http://localhost:8000/items/${id}`, {
+    method: 'DELETE',
+  })
+}
+
 export const addItem = async (title: string) => {
   await fetch(`http://localhost:8000/items`, {
     method: 'POST',
