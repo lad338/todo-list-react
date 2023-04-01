@@ -1,9 +1,12 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import { TaskList } from './TaskList'
-import { TaskListProps } from './ListContainer'
+import { selectDoneList, selectTodoList, useAppSelector } from '../hooks/redux'
 
-export const ListContainerWide: React.FC<TaskListProps> = (props) => {
+export const ListContainerWide: React.FC = () => {
+  const todoList = useAppSelector(selectTodoList)
+  const doneList = useAppSelector(selectDoneList)
+
   return (
     <Box
       className="list-container-wide"
@@ -17,10 +20,10 @@ export const ListContainerWide: React.FC<TaskListProps> = (props) => {
         className="undone-list-container"
         sx={{ width: '49.5%', marginRight: '1%' }}
       >
-        <TaskList headerType={'todo'} items={props.todoList} />
+        <TaskList headerType={'todo'} items={todoList} />
       </Box>
       <Box className="done-list-container" sx={{ width: '49.5%' }}>
-        <TaskList headerType={'done'} items={props.doneList} />
+        <TaskList headerType={'done'} items={doneList} />
       </Box>
     </Box>
   )

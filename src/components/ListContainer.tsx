@@ -1,41 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Container from '@mui/material/Container'
 import { ListContainerWide } from './ListContainerWide'
 import { ListContainerSmall } from './ListContainerSmall'
-import TaskItem from '../models/TaskItem'
+import { loadItems, useAppDispatch } from '../hooks/redux'
 
 export const ListContainer: React.FC = () => {
-  const items: TaskListProps = {
-    todoList: [
-      {
-        id: '1',
-        title: 'Lorem Ipsum',
-        isDone: false,
-      },
-      {
-        id: '2',
-        title: 'Lorem Ipsum 2',
-        isDone: false,
-      },
-    ],
-    doneList: [
-      {
-        id: '3',
-        title: 'Lorem Ipsum',
-        isDone: true,
-      },
-    ],
-  }
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(loadItems({}))
+  }, [])
 
   return (
     <Container className="content-container" maxWidth="xl">
-      <ListContainerWide todoList={items.todoList} doneList={items.doneList} />
-      <ListContainerSmall todoList={items.todoList} doneList={items.doneList} />
+      <ListContainerWide />
+      <ListContainerSmall />
     </Container>
   )
-}
-
-export type TaskListProps = {
-  todoList: TaskItem[]
-  doneList: TaskItem[]
 }

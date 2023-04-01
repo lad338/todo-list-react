@@ -1,12 +1,10 @@
 import React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import AppBar from '@mui/material/AppBar'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import SwipeableViews from 'react-swipeable-views'
 import { ListContainerSmallPanel } from './ListContainerSmallPanel'
-import { TaskListProps } from './ListContainer'
+import { selectDoneList, selectTodoList, useAppSelector } from '../hooks/redux'
 
 const a11yProps = (index: number) => {
   return {
@@ -14,16 +12,14 @@ const a11yProps = (index: number) => {
     'aria-controls': `full-width-tabpanel-${index}`,
   }
 }
-export const ListContainerSmall: React.FC<TaskListProps> = (props) => {
+export const ListContainerSmall: React.FC = () => {
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
+  const todoList = useAppSelector(selectTodoList)
+  const doneList = useAppSelector(selectDoneList)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
-  }
-
-  const handleChangeIndex = (index: number) => {
-    setValue(index)
   }
 
   return (
@@ -44,17 +40,18 @@ export const ListContainerSmall: React.FC<TaskListProps> = (props) => {
           <Tab label="Done" {...a11yProps(1)} />
         </Tabs>
       </Box>
+
       <ListContainerSmallPanel
         value={value}
         index={0}
         dir={theme.direction}
-        items={props.todoList}
+        items={todoList}
       />
       <ListContainerSmallPanel
         value={value}
         index={1}
         dir={theme.direction}
-        items={props.doneList}
+        items={doneList}
       />
     </Box>
   )
