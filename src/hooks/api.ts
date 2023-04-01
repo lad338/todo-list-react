@@ -44,3 +44,15 @@ export const addItem = async (title: string) => {
     }),
   })
 }
+
+export const doneItem = async (id: string, isDone: boolean) => {
+  await fetch(`http://localhost:8000/items/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      isDone,
+    }),
+  })
+}

@@ -13,8 +13,12 @@ import ClearIcon from '@mui/icons-material/Clear'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import TaskItem from '../models/TaskItem'
+import { loadItems, useAppDispatch } from '../hooks/redux'
+import { doneItem } from '../hooks/api'
 
 export const Item: React.FC<Props> = (props) => {
+  const dispatch = useAppDispatch()
+
   const [isExpanded, setIsExpanded] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const updateTextField = useRef<HTMLInputElement>(null)
@@ -34,6 +38,11 @@ export const Item: React.FC<Props> = (props) => {
     }
   }
 
+  const handleDoneItem = async (id: string, isDone: boolean) => {
+    await doneItem(id, isDone)
+    dispatch(loadItems({}))
+  }
+
   return (
     <ListItem sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <form style={{ width: '100%' }}>
@@ -42,7 +51,14 @@ export const Item: React.FC<Props> = (props) => {
           sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}
         >
           <ListItemIcon sx={{ marginRight: -2 }}>
-            <Checkbox edge="start" checked={props.item.isDone} tabIndex={-1} />
+            <Checkbox
+              edge="start"
+              checked={props.item.isDone}
+              tabIndex={-1}
+              onClick={async () => {
+                await handleDoneItem(props.item.id, !props.item.isDone)
+              }}
+            />
           </ListItemIcon>
           {!isEdit && (
             <Typography sx={{ marginY: 'auto' }}>{props.item.title}</Typography>

@@ -9,7 +9,6 @@ import { addItemAndRefresh } from '../hooks/app'
 export const UpperBarSmall: React.FC = () => {
   const dispatch = useAppDispatch()
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log('hi')
     await addItemAndRefresh(dispatch, event)
   }
 
