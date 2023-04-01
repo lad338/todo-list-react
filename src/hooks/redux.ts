@@ -34,7 +34,6 @@ export const appStateSlice = createSlice({
       console.log('loading items')
     })
     builder.addCase(loadItems.fulfilled, (state, action) => {
-      console.log('loaded items')
       state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = action.payload.todoList
     })

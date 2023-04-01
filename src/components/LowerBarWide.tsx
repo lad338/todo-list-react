@@ -6,6 +6,7 @@ import Button from '@mui/material/Button'
 import { loadItems, setSearchQuery, useAppDispatch } from '../hooks/redux'
 import { addItemAndRefresh } from '../hooks/app'
 import { debounce } from '../utils/input'
+import { inputFieldStyle } from '../styles/textField'
 export const LowerBarWide: React.FC = () => {
   const dispatch = useAppDispatch()
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,6 +42,8 @@ export const LowerBarWide: React.FC = () => {
             label="Add item"
             variant="filled"
             sx={{ width: 325 }}
+            InputProps={inputFieldStyle}
+            InputLabelProps={inputFieldStyle}
           />
           <Button
             type="submit"
@@ -57,7 +60,13 @@ export const LowerBarWide: React.FC = () => {
         </form>
       </Box>
       <Box>
-        <TextField label="Search.." variant="filled" onKeyUp={handleSearch} />
+        <TextField
+          label="Search.."
+          variant="filled"
+          onKeyUp={handleSearch}
+          InputProps={inputFieldStyle}
+          InputLabelProps={inputFieldStyle}
+        />
       </Box>
     </Box>
   )

@@ -10,6 +10,7 @@ import {
   useAppDispatch,
 } from '../hooks/redux'
 import { debounce } from '../utils/input'
+import { inputFieldStyle } from '../styles/textField'
 
 export const LowerBarSmall: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -44,6 +45,8 @@ export const LowerBarSmall: React.FC = () => {
         variant="filled"
         size="small"
         onKeyUp={handleSearch}
+        InputProps={inputFieldStyle}
+        InputLabelProps={inputFieldStyle}
       />
       <IconButton
         sx={{ color: '#fefefe', width: 48 }}
