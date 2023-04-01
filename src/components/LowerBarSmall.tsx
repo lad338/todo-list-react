@@ -27,7 +27,7 @@ export const LowerBarSmall: React.FC = () => {
         size="small"
       />
       <IconButton
-        sx={{ color: '#fefefe', width: 56 }}
+        sx={{ color: '#fefefe', width: 48 }}
         onClick={handleDeleteClick}
       >
         <DeleteIcon />

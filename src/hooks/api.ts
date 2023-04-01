@@ -32,3 +32,15 @@ export const deleteAllItems = async () => {
     method: 'DELETE',
   })
 }
+
+export const addItem = async (title: string) => {
+  await fetch(`http://localhost:8000/items`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title,
+    }),
+  })
+}

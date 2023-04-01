@@ -3,7 +3,14 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import Button from '@mui/material/Button'
+import { useAppDispatch } from '../hooks/redux'
+import { addItemAndRefresh } from '../hooks/app'
 export const LowerBarWide: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
+    await addItemAndRefresh(dispatch, event)
+  }
+
   return (
     <Box
       width="100%"
@@ -16,9 +23,9 @@ export const LowerBarWide: React.FC = () => {
         className="add-item-container"
         style={{ flexDirection: 'row', display: 'flex', flexGrow: 1 }}
       >
-        <form>
+        <form onSubmit={handleAddItem}>
           <TextField
-            id="filled-basic"
+            name="new-item-title"
             label="Add item"
             variant="filled"
             sx={{ width: 325 }}
