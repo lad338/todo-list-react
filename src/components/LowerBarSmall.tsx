@@ -1,15 +1,13 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
 import {
   loadItems,
-  selectSearchQuery,
   setDeleteDialogOpen,
   setSearchQuery,
   useAppDispatch,
-  useAppSelector,
 } from '../hooks/redux'
 import { debounce } from '../utils/input'
 
@@ -20,17 +18,16 @@ export const LowerBarSmall: React.FC = () => {
     dispatch(setDeleteDialogOpen(true))
   }
 
+  const search = useMemo(() => {
+    return debounce(async (q: string) => {
+      dispatch(setSearchQuery(q))
+      dispatch(loadItems({ search: q }))
+    }, 300)
+  }, [dispatch])
+
   const handleSearch = (e: any) => {
     search(e.target.value)
   }
-
-  const search = useCallback(
-    debounce(async (q: string) => {
-      dispatch(setSearchQuery(q))
-      dispatch(loadItems({ search: q }))
-    }, 300),
-    []
-  )
 
   return (
     <Box

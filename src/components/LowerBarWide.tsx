@@ -1,15 +1,9 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import Button from '@mui/material/Button'
-import {
-  loadItems,
-  selectSearchQuery,
-  setSearchQuery,
-  useAppDispatch,
-  useAppSelector,
-} from '../hooks/redux'
+import { loadItems, setSearchQuery, useAppDispatch } from '../hooks/redux'
 import { addItemAndRefresh } from '../hooks/app'
 import { debounce } from '../utils/input'
 export const LowerBarWide: React.FC = () => {
@@ -18,13 +12,12 @@ export const LowerBarWide: React.FC = () => {
     await addItemAndRefresh(dispatch, event)
   }
 
-  const search = useCallback(
-    debounce(async (q: string) => {
+  const search = useMemo(() => {
+    return debounce(async (q: string) => {
       dispatch(setSearchQuery(q))
       dispatch(loadItems({ search: q }))
-    }, 300),
-    []
-  )
+    }, 300)
+  }, [dispatch])
 
   const handleSearch = (e: any) => {
     search(e.target.value)
