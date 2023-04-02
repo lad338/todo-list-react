@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import { deleteAllItems } from '../hooks/api'
 import {
-  loadItems,
+  initItems,
   selectDeleteDialog,
   setDeleteDialogOpen,
   useAppDispatch,
@@ -23,7 +23,7 @@ export const DeleteAllDialog: React.FC = () => {
 
   const handleDeleteAll = async () => {
     await deleteAllItems()
-    dispatch(loadItems({}))
+    dispatch(initItems())
     handleClose()
   }
   return (

@@ -13,11 +13,17 @@ import ClearIcon from '@mui/icons-material/Clear'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import TaskItem from '../models/TaskItem'
-import { loadItems, useAppDispatch } from '../hooks/redux'
+import {
+  loadItems,
+  selectSearchQuery,
+  useAppDispatch,
+  useAppSelector,
+} from '../hooks/redux'
 import { deleteOne, doneItem, updateItemTitle } from '../hooks/api'
 
 export const Item: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
+  const search = useAppSelector(selectSearchQuery)
 
   const [isExpanded, setIsExpanded] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -43,7 +49,7 @@ export const Item: React.FC<Props> = (props) => {
 
   const handleDoneItem = async () => {
     await doneItem(props.item.id, !props.item.isDone)
-    dispatch(loadItems({}))
+    dispatch(loadItems({ search }))
   }
 
   const handleUpdateItemTitle = async (e: FormEvent<HTMLFormElement>) => {
@@ -53,7 +59,7 @@ export const Item: React.FC<Props> = (props) => {
     if (title !== '') {
       if (title !== props.item.title) {
         await updateItemTitle(props.item.id, title)
-        dispatch(loadItems({}))
+        dispatch(loadItems({ search }))
       }
       handleEditToggle()
     }
@@ -61,7 +67,7 @@ export const Item: React.FC<Props> = (props) => {
 
   const handleDeleteItem = async () => {
     await deleteOne(props.item.id)
-    dispatch(loadItems({}))
+    dispatch(loadItems({ search }))
   }
 
   return (

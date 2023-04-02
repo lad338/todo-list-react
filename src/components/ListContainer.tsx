@@ -4,11 +4,10 @@ import { ListContainerWide } from './ListContainerWide'
 import { ListContainerSmall } from './ListContainerSmall'
 import {
   initItems,
-  loadItems,
+  loadMoreItems,
   selectHasMore,
   selectSearchQuery,
   selectSkip,
-  setSearchQuery,
   setSkip,
   useAppDispatch,
   useAppSelector,
@@ -22,8 +21,6 @@ export const ListContainer: React.FC = () => {
 
   useEffect(() => {
     dispatch(initItems())
-    dispatch(setSearchQuery(''))
-    dispatch(setSkip(0))
   }, [dispatch])
 
   useEffect(() => {
@@ -39,7 +36,7 @@ export const ListContainer: React.FC = () => {
       const scrolledToBottom =
         Math.ceil(scrollTop + clientHeight) >= scrollHeight
       if (scrolledToBottom && hasMore) {
-        dispatch(loadItems({ search, skip: skip + 15 }))
+        dispatch(loadMoreItems({ search, skip: skip + 15 }))
         dispatch(setSkip(15 + skip))
       }
     }

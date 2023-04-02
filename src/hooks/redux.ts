@@ -36,22 +36,26 @@ export const appStateSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadItems.pending, () => {})
     builder.addCase(loadItems.fulfilled, (state, action) => {
       state.taskLists.doneList = action.payload.doneList
-
+      state.taskLists.todoList = action.payload.todoList
+      state.todoHasMore = action.payload.hasMore
+      state.todoSkip = 0
+    })
+    builder.addCase(loadMoreItems.fulfilled, (state, action) => {
+      state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = [
         ...state.taskLists.todoList,
         ...action.payload.todoList,
       ]
-
       state.todoHasMore = action.payload.hasMore
     })
-    builder.addCase(initItems.pending, () => {})
     builder.addCase(initItems.fulfilled, (state, action) => {
       state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = action.payload.todoList
       state.todoHasMore = action.payload.hasMore
+      state.todoSkip = 0
+      state.search = ''
     })
   },
 })
@@ -61,7 +65,14 @@ export const { setDeleteDialogOpen, setSearchQuery, setSkip } =
 
 export const loadItems = createAsyncThunk(
   'appState/loadItems',
-  async (query: { search?: string; skip?: number }) => {
+  async (query: { search?: string }) => {
+    return await getItems(query.search)
+  }
+)
+
+export const loadMoreItems = createAsyncThunk(
+  'appState/loadMoreItems',
+  async (query: { search?: string; skip: number }) => {
     return await getItems(query.search, query.skip)
   }
 )

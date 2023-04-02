@@ -1,6 +1,6 @@
 import React from 'react'
 import { addItem } from './api'
-import { loadItems } from './redux'
+import { initItems } from './redux'
 
 export const addItemAndRefresh = async (
   dispatch: any,
@@ -11,6 +11,6 @@ export const addItemAndRefresh = async (
   const title = (formData.get('new-item-title') || '').toString().trim()
   if (title !== '') {
     await addItem(title)
-    dispatch(loadItems({}))
+    dispatch(initItems())
   }
 }
