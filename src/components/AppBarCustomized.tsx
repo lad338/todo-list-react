@@ -7,15 +7,20 @@ import { TitleBarSmall } from './TitleBarSmall'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { breakpointStyle } from '../styles/breakpoint'
 import { appBarInputFieldStyle } from '../styles/textField'
-
-const appBarTheme = createTheme({
-  ...breakpointStyle,
-  components: {
-    ...appBarInputFieldStyle.components,
-  },
-})
+import { selectDarkMode, useAppSelector } from '../hooks/redux'
 
 export const AppBarCustomized: React.FC = () => {
+  const isDarkMode = useAppSelector(selectDarkMode)
+  const appBarTheme = createTheme({
+    ...breakpointStyle,
+    components: {
+      ...appBarInputFieldStyle.components,
+    },
+    palette: {
+      mode: isDarkMode ? 'dark' : 'light',
+    },
+  })
+
   return (
     <ThemeProvider theme={appBarTheme}>
       <AppBar sx={{ position: 'sticky' }}>

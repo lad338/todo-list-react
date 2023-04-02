@@ -20,6 +20,7 @@ export const selectDeleteDialog = (state: RootState) =>
 export const selectSearchQuery = (state: RootState) => state.appState.search
 export const selectHasMore = (state: RootState) => state.appState.todoHasMore
 export const selectSkip = (state: RootState) => state.appState.todoSkip
+export const selectDarkMode = (state: RootState) => state.appState.isDarkMode
 
 export const appStateSlice = createSlice({
   name: 'app',
@@ -33,6 +34,9 @@ export const appStateSlice = createSlice({
     },
     setSkip: (state, action: PayloadAction<number>) => {
       state.todoSkip = action.payload
+    },
+    setDarkMode: (state, action: PayloadAction<boolean>) => {
+      state.isDarkMode = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -60,7 +64,7 @@ export const appStateSlice = createSlice({
   },
 })
 
-export const { setDeleteDialogOpen, setSearchQuery, setSkip } =
+export const { setDeleteDialogOpen, setSearchQuery, setSkip, setDarkMode } =
   appStateSlice.actions
 
 export const loadItems = createAsyncThunk(

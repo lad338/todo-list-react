@@ -4,6 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { setDeleteDialogOpen, useAppDispatch } from '../hooks/redux'
+import { DarkModeButton } from './DarkModeButton'
 
 export const UpperBarWide: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -19,18 +20,28 @@ export const UpperBarWide: React.FC = () => {
       <Typography variant="h2" sx={{ flexGrow: 1 }}>
         Marvelous v2.0
       </Typography>
-      <Button
+      <Box
         sx={{
+          display: 'flex',
+          flexDirection: 'row',
           height: '100%',
-          color: '#fefefe',
-          marginY: 'auto',
+          margin: 'auto',
         }}
-        variant="outlined"
-        startIcon={<DeleteIcon />}
-        onClick={handleDeleteClick}
       >
-        Delete all tasks
-      </Button>
+        <DarkModeButton />
+        <Button
+          sx={{
+            height: '100%',
+            color: '#fefefe',
+            marginY: 'auto',
+          }}
+          variant="outlined"
+          startIcon={<DeleteIcon />}
+          onClick={handleDeleteClick}
+        >
+          Delete all tasks
+        </Button>
+      </Box>
     </Box>
   )
 }

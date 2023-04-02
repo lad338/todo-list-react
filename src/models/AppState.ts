@@ -6,6 +6,7 @@ export type AppState = {
   search?: string
   todoHasMore: boolean
   todoSkip: number
+  isDarkMode: boolean
 }
 
 export const initialAppState: AppState = {
@@ -16,4 +17,5 @@ export const initialAppState: AppState = {
   isDeleteDialogOpen: false,
   todoHasMore: false,
   todoSkip: 0,
+  isDarkMode: false,
 }

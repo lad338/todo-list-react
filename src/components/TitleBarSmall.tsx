@@ -1,6 +1,7 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { DarkModeButton } from './DarkModeButton'
 
 export const TitleBarSmall: React.FC = () => {
   return (
@@ -10,9 +11,12 @@ export const TitleBarSmall: React.FC = () => {
         display: { xs: 'flex', md: 'none' },
       }}
     >
-      <Typography textAlign="center" width="100%">
-        Marvelous v2.0
-      </Typography>
+      <Box sx={{ margin: 'auto', display: 'flex', flexDirection: 'row' }}>
+        <Typography sx={{ margin: 'auto' }} textAlign="center">
+          Marvelous v2.0
+        </Typography>
+        <DarkModeButton />
+      </Box>
     </Box>
   )
 }
