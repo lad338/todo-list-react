@@ -89,7 +89,20 @@ export const Item: React.FC<Props> = (props) => {
             />
           </ListItemIcon>
           {!isEdit && (
-            <Typography sx={{ marginY: 'auto' }}>{props.item.title}</Typography>
+            <Typography
+              sx={{
+                marginY: 'auto',
+                overflowWrap: 'break-word',
+                maxWidth: {
+                  xs: '64dvw',
+                  sm: '68dvw',
+                  md: '32dvw',
+                  lg: '36dvw',
+                },
+              }}
+            >
+              {props.item.title}
+            </Typography>
           )}
           {isEdit && (
             <TextField
