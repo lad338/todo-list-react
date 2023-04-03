@@ -2,14 +2,10 @@ import React, { FormEvent, useRef, useState } from 'react'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
-import ItemExpandMoreIcon from './ItemExpandMoreIcon'
-import Collapse from '@mui/material/Collapse'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import DoneIcon from '@mui/icons-material/Done'
-import ClearIcon from '@mui/icons-material/Clear'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import TaskItem from '../models/TaskItem'
@@ -21,6 +17,7 @@ import {
   useAppSelector,
 } from '../hooks/redux'
 import repository from '../utils/repository'
+import { ItemActions } from './ItemActions'
 
 export const Item: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
@@ -28,16 +25,9 @@ export const Item: React.FC<Props> = (props) => {
   const isOnline = useAppSelector(selectOnline)
   const repo = repository(isOnline)
 
-  const [isExpanded, setIsExpanded] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
   const updateTextField = useRef<HTMLInputElement>(null)
-
-  const handleExpandClick = () => {
-    setIsExpanded(!isExpanded)
-    if (isEdit) {
-      handleEditToggle()
-    }
-  }
 
   const handleEditToggle = () => {
     const currentEdit = isEdit
@@ -48,6 +38,10 @@ export const Item: React.FC<Props> = (props) => {
         updateTextField.current?.focus()
       }, 100)
     }
+  }
+
+  const handleDeleteToggle = () => {
+    setIsDelete(!isDelete)
   }
 
   const handleDoneItem = async () => {
@@ -82,6 +76,7 @@ export const Item: React.FC<Props> = (props) => {
         >
           <ListItemIcon sx={{ marginRight: -2 }}>
             <Checkbox
+              sx={{ height: 40 }}
               edge="start"
               checked={props.item.isDone}
               tabIndex={-1}
@@ -93,12 +88,8 @@ export const Item: React.FC<Props> = (props) => {
               sx={{
                 marginY: 'auto',
                 overflowWrap: 'break-word',
-                maxWidth: {
-                  xs: '64dvw',
-                  sm: '68dvw',
-                  md: '32dvw',
-                  lg: '36dvw',
-                },
+                flexGrow: 1,
+                overflowX: 'scroll',
               }}
             >
               {props.item.title}
@@ -107,69 +98,52 @@ export const Item: React.FC<Props> = (props) => {
           {isEdit && (
             <TextField
               name="update-title"
-              sx={{ marginY: 'auto' }}
+              sx={{
+                marginY: 'auto',
+                '& .MuiInputBase-root': {
+                  height: 40, // change the height here
+                },
+              }}
               fullWidth={true}
               variant="filled"
-              size="small"
               placeholder={props.item.title}
               defaultValue={props.item.title}
               inputRef={updateTextField}
             />
           )}
 
-          <ItemExpandMoreIcon expand={isExpanded} onClick={handleExpandClick} />
-        </Box>
-
-        <Collapse
-          sx={{ width: '100%', marginY: 1 }}
-          in={isExpanded}
-          timeout="auto"
-          unmountOnExit
-        >
-          <Box
-            className="item-extra-actions-container"
-            sx={{ display: 'flex', flexDirection: 'row' }}
-          >
+          {!isEdit && !isDelete && (
             <Box
-              className="item-edit-actions-container"
-              sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}
+              className="item-actions-container"
+              sx={{
+                ml: 1,
+                right: 0,
+                maxHeight: 40,
+                display: 'flex',
+                flexDirection: 'row',
+              }}
             >
-              {!isEdit && (
-                <>
-                  <IconButton
-                    aria-label="edit"
-                    edge="start"
-                    onClick={handleEditToggle}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </>
-              )}
-              {isEdit && (
-                <>
-                  <IconButton aria-label="confirm" edge="start" type="submit">
-                    <DoneIcon />
-                  </IconButton>
-                  <IconButton
-                    aria-label="cancel"
-                    edge="start"
-                    onClick={handleEditToggle}
-                    sx={{ marginLeft: 0 }}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </>
-              )}
+              <IconButton aria-label="edit" onClick={handleEditToggle}>
+                <EditIcon />
+              </IconButton>
+              <IconButton aria-label="delete" onClick={handleDeleteToggle}>
+                <DeleteIcon />
+              </IconButton>
             </Box>
-            <IconButton
-              aria-label="delete"
-              edge="end"
-              onClick={handleDeleteItem}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        </Collapse>
+          )}
+
+          {isEdit && (
+            <ItemActions isSubmit={true} handleCancel={handleEditToggle} />
+          )}
+
+          {isDelete && (
+            <ItemActions
+              isSubmit={false}
+              handleCancel={handleDeleteToggle}
+              handleClick={handleDeleteItem}
+            />
+          )}
+        </Box>
       </form>
     </ListItem>
   )
