@@ -37,7 +37,8 @@ const getItems = async (
   const filter = (item: ItemEntity) => {
     return (
       item.doneTime === undefined &&
-      (search === undefined || item.title.startsWith(search))
+      (search === undefined ||
+        item.title.toLowerCase().startsWith(search.toLowerCase()))
     )
   }
 
@@ -69,7 +70,8 @@ const getItems = async (
       .filter(
         (item) =>
           item.doneTime !== undefined &&
-          (search === undefined || item.title.startsWith(search))
+          (search === undefined ||
+            item.title.toLowerCase().startsWith(search.toLowerCase()))
       )
       .limit(10)
       .toArray()
