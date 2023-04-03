@@ -67,14 +67,11 @@ const getTasks = async (
     await DB.task
       .orderBy('doneTime')
       .reverse()
-      .filter(
-        (task) =>
-          task.doneTime !== undefined &&
-          (search === undefined ||
-            task.title.toLowerCase().startsWith(search.toLowerCase()))
-      )
+      .filter((task) => task.doneTime !== undefined)
       .limit(10)
-      .toArray()
+      .filter((task) => search === undefined || task.title.startsWith(search))
+      .reverse()
+      .sortBy('title')
   ).map((it) => ({ id: it.id, title: it.title, isDone: true }))
 
   return {
