@@ -66,7 +66,11 @@ const getItems = async (
     await DB.item
       .orderBy('doneTime')
       .reverse()
-      .filter((item) => item.doneTime !== undefined)
+      .filter(
+        (item) =>
+          item.doneTime !== undefined &&
+          (search === undefined || item.title.startsWith(search))
+      )
       .limit(10)
       .toArray()
   ).map((it) => ({ id: it.id, title: it.title, isDone: true }))

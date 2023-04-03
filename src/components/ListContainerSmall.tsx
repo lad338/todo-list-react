@@ -26,7 +26,7 @@ export const ListContainerSmall: React.FC = () => {
     <Box
       sx={{
         marginY: 2,
-        display: { xs: 'block', sm: 'none' },
+        display: { xs: 'block', md: 'none' },
       }}
     >
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

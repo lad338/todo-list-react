@@ -19,7 +19,9 @@ export const UpperBarWide: React.FC = () => {
       sx={{ display: { xs: 'none', md: 'flex' }, flexDirection: 'row' }}
     >
       <Box sx={{ flexGrow: 1, flexDirection: 'row', display: 'flex' }}>
-        <Typography variant="h2">Marvelous v2.0</Typography>
+        <Typography variant="h2" sx={{ fontSize: 50, my: 'auto' }}>
+          Marvelous v2.0
+        </Typography>
         <OnlineIcon />
       </Box>
 

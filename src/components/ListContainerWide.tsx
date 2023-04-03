@@ -12,7 +12,7 @@ export const ListContainerWide: React.FC = () => {
       className="list-container-wide"
       sx={{
         marginY: 2,
-        display: { xs: 'none', sm: 'flex' },
+        display: { xs: 'none', md: 'flex' },
         flexDirection: 'row',
       }}
     >
