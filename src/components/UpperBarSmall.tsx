@@ -5,13 +5,15 @@ import SendIcon from '@mui/icons-material/Send'
 import IconButton from '@mui/material/IconButton'
 import { selectOnline, useAppDispatch, useAppSelector } from '../hooks/redux'
 import { addItemAndRefresh } from '../hooks/app'
+import { useSnackbar } from 'notistack'
 
 export const UpperBarSmall: React.FC = () => {
   const dispatch = useAppDispatch()
   const isOnline = useAppSelector(selectOnline)
   const formRef = useRef<HTMLFormElement>(null)
+  const { enqueueSnackbar } = useSnackbar()
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    await addItemAndRefresh(dispatch, isOnline, formRef, event)
+    await addItemAndRefresh(dispatch, isOnline, formRef, event, enqueueSnackbar)
   }
 
   return (

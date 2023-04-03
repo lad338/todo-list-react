@@ -12,12 +12,14 @@ import {
 } from '../hooks/redux'
 import { addItemAndRefresh } from '../hooks/app'
 import { debounce } from '../utils/input'
+import { useSnackbar } from 'notistack'
 export const LowerBarWide: React.FC = () => {
   const dispatch = useAppDispatch()
   const isOnline = useAppSelector(selectOnline)
   const formRef = useRef<HTMLFormElement>(null)
+  const { enqueueSnackbar } = useSnackbar()
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    await addItemAndRefresh(dispatch, isOnline, formRef, event)
+    await addItemAndRefresh(dispatch, isOnline, formRef, event, enqueueSnackbar)
   }
 
   const search = useMemo(() => {
