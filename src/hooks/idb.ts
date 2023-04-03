@@ -9,7 +9,7 @@ class DexieDB extends Dexie {
   constructor() {
     super('todo-list')
     this.version(1).stores({
-      task: '&id, title, doneTime',
+      task: '&id, lowerCaseTitle, doneTime',
     })
   }
 }
@@ -38,24 +38,24 @@ const getTasks = async (
     return (
       task.doneTime === undefined &&
       (search === undefined ||
-        task.title.toLowerCase().startsWith(search.toLowerCase()))
+        task.lowerCaseTitle.startsWith(search.toLowerCase()))
     )
   }
 
   const count = await DB.task
-    .where('title')
-    .startsWith(search || '')
+    .where('lowerCaseTitle')
+    .startsWith(search?.toLowerCase() || '')
     .filter((task) => task.doneTime === undefined)
     .count()
 
   const todoTemp = skip
     ? await DB.task
-        .orderBy('title')
+        .orderBy('lowerCaseTitle')
         .filter(filter)
         .offset(skip)
         .limit(15)
         .toArray()
-    : await DB.task.orderBy('title').filter(filter).limit(15).toArray()
+    : await DB.task.orderBy('lowerCaseTitle').filter(filter).limit(15).toArray()
 
   const todoItems = todoTemp.map((it) => ({
     id: it.id,
@@ -69,10 +69,12 @@ const getTasks = async (
       .reverse()
       .filter((task) => task.doneTime !== undefined)
       .limit(10)
-      .filter((task) => search === undefined || task.title.startsWith(search))
-      .reverse()
-      .sortBy('title')
-  ).map((it) => ({ id: it.id, title: it.title, isDone: true }))
+      .sortBy('lowerCaseTitle')
+  )
+    .filter(
+      (task) => search === undefined || task.lowerCaseTitle.startsWith(search)
+    )
+    .map((it) => ({ id: it.id, title: it.title, isDone: true }))
 
   return {
     doneList: doneItems,
@@ -82,7 +84,7 @@ const getTasks = async (
 }
 
 const updateTaskTitle = async (id: string, title: string) => {
-  await DB.task.update(id, { title })
+  await DB.task.update(id, { title, lowerCaseTitle: title.toLowerCase() })
 }
 
 export const IDBService: TaskRepository = {
