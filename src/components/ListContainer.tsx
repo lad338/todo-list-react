@@ -14,21 +14,26 @@ import {
   useAppSelector,
 } from '../hooks/redux'
 import { checkOnline } from '../hooks/app'
+import { useSnackbar } from 'notistack'
 
 export const ListContainer: React.FC = () => {
   const dispatch = useAppDispatch()
+  const { enqueueSnackbar } = useSnackbar()
   const hasMore = useAppSelector(selectHasMore)
   const skip = useAppSelector(selectSkip)
   const search = useAppSelector(selectSearchQuery)
 
   useEffect(() => {
-    checkOnline().then((isOnline) => {
-      console.log(isOnline)
-      dispatch(setOnline(isOnline))
+    checkOnline().then((isBackendAvailable) => {
+      if (!isBackendAvailable) {
+        enqueueSnackbar('Backend unavailable. Using offline mode', {
+          variant: 'error',
+        })
+      }
+      dispatch(setOnline(isBackendAvailable))
       dispatch(initItems())
-      //TODO handle not online message
     })
-  }, [dispatch])
+  }, [dispatch, enqueueSnackbar])
 
   useEffect(() => {
     const handleScroll = () => {

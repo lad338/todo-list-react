@@ -60,11 +60,6 @@ export const appStateSlice = createSlice({
       ]
       state.todoHasMore = action.payload.hasMore
     })
-    // TODO remove
-    // builder.addCase(initItems.pending, (state) => {
-    //   console.log('init')
-    //   console.log(state.isOnline)
-    // })
     builder.addCase(initItems.fulfilled, (state, action) => {
       state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = action.payload.todoList
