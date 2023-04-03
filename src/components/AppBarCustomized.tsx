@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material'
 import { breakpointStyle } from '../styles/breakpoint'
 import { appBarInputFieldStyle } from '../styles/textField'
 import { selectDarkMode, useAppSelector } from '../hooks/redux'
+import { appBarButton } from '../styles/appBarButton'
 
 export const AppBarCustomized: React.FC = () => {
   const isDarkMode = useAppSelector(selectDarkMode)
@@ -15,6 +16,7 @@ export const AppBarCustomized: React.FC = () => {
     ...breakpointStyle,
     components: {
       ...appBarInputFieldStyle.components,
+      ...appBarButton,
     },
     palette: {
       mode: isDarkMode ? 'dark' : 'light',
