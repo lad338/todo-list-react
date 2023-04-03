@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useRef } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
@@ -15,8 +15,9 @@ import { debounce } from '../utils/input'
 export const LowerBarWide: React.FC = () => {
   const dispatch = useAppDispatch()
   const isOnline = useAppSelector(selectOnline)
+  const formRef = useRef<HTMLFormElement>(null)
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    await addItemAndRefresh(dispatch, isOnline, event)
+    await addItemAndRefresh(dispatch, isOnline, formRef, event)
   }
 
   const search = useMemo(() => {
@@ -42,7 +43,7 @@ export const LowerBarWide: React.FC = () => {
         className="add-item-container"
         style={{ flexDirection: 'row', display: 'flex', flexGrow: 1 }}
       >
-        <form onSubmit={handleAddItem}>
+        <form onSubmit={handleAddItem} ref={formRef}>
           <TextField
             name="new-item-title"
             label="Add item"

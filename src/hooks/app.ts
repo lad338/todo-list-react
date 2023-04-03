@@ -6,6 +6,7 @@ import { IDBService } from './idb'
 export const addItemAndRefresh = async (
   dispatch: any,
   isOnline: boolean,
+  formRef: React.RefObject<HTMLFormElement>,
   event: React.FormEvent<HTMLFormElement>
 ) => {
   event.preventDefault()
@@ -14,6 +15,7 @@ export const addItemAndRefresh = async (
   if (title !== '') {
     const repo = isOnline ? ApiService : IDBService
     await repo.addItem(title)
+    formRef.current?.reset()
     dispatch(initItems())
   }
 }

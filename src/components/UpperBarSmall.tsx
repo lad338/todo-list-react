@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
@@ -9,12 +9,13 @@ import { addItemAndRefresh } from '../hooks/app'
 export const UpperBarSmall: React.FC = () => {
   const dispatch = useAppDispatch()
   const isOnline = useAppSelector(selectOnline)
+  const formRef = useRef<HTMLFormElement>(null)
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    await addItemAndRefresh(dispatch, isOnline, event)
+    await addItemAndRefresh(dispatch, isOnline, formRef, event)
   }
 
   return (
-    <form onSubmit={handleAddItem}>
+    <form onSubmit={handleAddItem} ref={formRef}>
       <Box
         width="100%"
         sx={{
