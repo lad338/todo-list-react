@@ -39,6 +39,7 @@ export const UpperBarWide: React.FC = () => {
             height: '100%',
             color: '#fefefe',
             marginY: 'auto',
+            textTransform: 'none',
           }}
           variant="outlined"
           startIcon={<DeleteIcon />}

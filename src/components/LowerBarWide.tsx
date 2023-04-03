@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import SendIcon from '@mui/icons-material/Send'
+import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
 import {
   loadTasks,
@@ -50,24 +50,30 @@ export const LowerBarWide: React.FC = () => {
             name="new-task-title"
             label="Add task"
             variant="filled"
-            sx={{ width: 325 }}
+            sx={{ width: 333 }}
           />
           <Button
             type="submit"
             sx={{
+              textTransform: 'none',
               height: '100%',
               color: '#fefefe',
               marginY: 'auto',
             }}
             variant="outlined"
-            endIcon={<SendIcon />}
+            endIcon={<AddIcon />}
           >
             Add
           </Button>
         </form>
       </Box>
       <Box>
-        <TextField label="Search.." variant="filled" onKeyUp={handleSearch} />
+        <TextField
+          sx={{ width: 195 }}
+          label="Search.."
+          variant="filled"
+          onKeyUp={handleSearch}
+        />
       </Box>
     </Box>
   )

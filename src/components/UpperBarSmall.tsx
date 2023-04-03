@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import SendIcon from '@mui/icons-material/Send'
+import AddIcon from '@mui/icons-material/Add'
 import IconButton from '@mui/material/IconButton'
 import { selectOnline, useAppDispatch, useAppSelector } from '../hooks/redux'
 import { addTaskAndRefresh } from '../hooks/app'
@@ -33,7 +33,7 @@ export const UpperBarSmall: React.FC = () => {
           size="small"
         />
         <IconButton sx={{ color: '#fefefe', width: 48 }} type="submit">
-          <SendIcon />
+          <AddIcon />
         </IconButton>
       </Box>
     </form>
