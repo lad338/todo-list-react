@@ -18,12 +18,15 @@ import {
 } from '../hooks/redux'
 import repository from '../utils/repository'
 import { ItemActions } from './ItemActions'
+import { useSnackbar } from 'notistack'
+import { trimTask } from '../utils/taskTItle'
 
 export const Item: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
   const search = useAppSelector(selectSearchQuery)
   const isOnline = useAppSelector(selectOnline)
   const repo = repository(isOnline)
+  const { enqueueSnackbar } = useSnackbar()
 
   const [isEdit, setIsEdit] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
@@ -45,8 +48,18 @@ export const Item: React.FC<Props> = (props) => {
   }
 
   const handleDoneItem = async () => {
-    await repo.doneItem(props.item.id, !props.item.isDone)
-    dispatch(loadItems({ search }))
+    try {
+      await repo.doneItem(props.item.id, !props.item.isDone)
+      dispatch(loadItems({ search }))
+      enqueueSnackbar(
+        `${!props.item.isDone ? 'Done' : 'Undone'} task ${trimTask(
+          props.item.title,
+          30
+        )}`
+      )
+    } catch (e) {
+      enqueueSnackbar('Failed to update status of task', { variant: 'warning' })
+    }
   }
 
   const handleUpdateItemTitle = async (e: FormEvent<HTMLFormElement>) => {
@@ -55,16 +68,28 @@ export const Item: React.FC<Props> = (props) => {
     const title = (formData.get('update-title') || '').toString().trim()
     if (title !== '') {
       if (title !== props.item.title) {
-        await repo.updateItemTitle(props.item.id, title)
-        dispatch(loadItems({ search }))
+        try {
+          await repo.updateItemTitle(props.item.id, title)
+          dispatch(loadItems({ search }))
+          enqueueSnackbar(`Successfully updated task to ${trimTask(title, 30)}`)
+        } catch (e) {
+          enqueueSnackbar(`Failed to update task`)
+        }
       }
       handleEditToggle()
     }
   }
 
   const handleDeleteItem = async () => {
-    await repo.deleteOne(props.item.id)
-    dispatch(loadItems({ search }))
+    try {
+      await repo.deleteOne(props.item.id)
+      dispatch(loadItems({ search }))
+      enqueueSnackbar(
+        `Successfully deleted task ${trimTask(props.item.title, 30)}`
+      )
+    } catch (e) {
+      enqueueSnackbar(`Failed to delete task`)
+    }
   }
 
   return (

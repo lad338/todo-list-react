@@ -3,6 +3,7 @@ import { ApiService, healthCheck } from './api'
 import { initItems } from './redux'
 import { IDBService } from './idb'
 import { EnqueueSnackbar } from 'notistack'
+import { trimTask } from '../utils/taskTItle'
 
 export const addItemAndRefresh = async (
   dispatch: any,
@@ -19,11 +20,7 @@ export const addItemAndRefresh = async (
     await repo.addItem(title)
     formRef.current?.reset()
     dispatch(initItems())
-    enqueueSnackbar(
-      `Added Item:\n${
-        title.length > 30 ? title.substring(0, 30) + ' ...' : title
-      }`
-    )
+    enqueueSnackbar(`Added Task: ${trimTask(title, 30)}`)
   }
 }
 

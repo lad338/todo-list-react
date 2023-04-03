@@ -14,18 +14,25 @@ import {
   useAppSelector,
 } from '../hooks/redux'
 import repository from '../utils/repository'
+import { useSnackbar } from 'notistack'
 
 export const DeleteAllDialog: React.FC = () => {
   const dispatch = useAppDispatch()
   const isOpen = useAppSelector(selectDeleteDialog)
   const isOnline = useAppSelector(selectOnline)
   const repo = repository(isOnline)
+  const { enqueueSnackbar } = useSnackbar()
   const handleClose = () => {
     dispatch(setDeleteDialogOpen(false))
   }
 
   const handleDeleteAll = async () => {
-    await repo.deleteAllItems()
+    try {
+      await repo.deleteAllItems()
+      enqueueSnackbar('Successfully deleted all tasks')
+    } catch (e) {
+      enqueueSnackbar('Failed to deleted all tasks', { variant: 'warning' })
+    }
     dispatch(initItems())
     handleClose()
   }

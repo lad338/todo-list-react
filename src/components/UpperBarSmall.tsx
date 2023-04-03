@@ -28,7 +28,7 @@ export const UpperBarSmall: React.FC = () => {
         <TextField
           sx={{ flexGrow: 1 }}
           name="new-item-title"
-          label="Add Item"
+          label="Add task"
           variant="filled"
           size="small"
         />

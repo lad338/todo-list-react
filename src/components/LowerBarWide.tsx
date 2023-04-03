@@ -48,7 +48,7 @@ export const LowerBarWide: React.FC = () => {
         <form onSubmit={handleAddItem} ref={formRef}>
           <TextField
             name="new-item-title"
-            label="Add item"
+            label="Add task"
             variant="filled"
             sx={{ width: 325 }}
           />
