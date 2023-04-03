@@ -1,5 +1,5 @@
 # todo-list-react
-Single page Todo list in React. Frontend using this [Todo List Backend](https://github.com/lad338/todo-list-backend). UI elements from [MUI](https://mui.com/)
+Single page Todo list in React. Web Frontend using [Todo List Backend](https://github.com/lad338/todo-list-backend). UI elements from [MUI].(https://mui.com/)
 
 ## Deployment
 Example Netlify deployment: https://todo-list-lad338.netlify.app/
