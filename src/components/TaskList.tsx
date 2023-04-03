@@ -4,7 +4,7 @@ import ListSubheader from '@mui/material/ListSubheader'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
-import { Item } from './Item'
+import { Task } from './Task'
 
 export const TaskList: React.FC<Props> = (props) => {
   return (
@@ -27,8 +27,8 @@ export const TaskList: React.FC<Props> = (props) => {
         </ListSubheader>
       }
     >
-      {props.items.map((item) => {
-        return <Item item={item} key={'task-item-' + item.id} />
+      {props.tasks.map((task) => {
+        return <Task task={task} key={'task-item-' + task.id} />
       })}
     </List>
   )
@@ -36,5 +36,5 @@ export const TaskList: React.FC<Props> = (props) => {
 
 type Props = {
   headerType: 'todo' | 'done' | 'none'
-  items: TaskItem[]
+  tasks: TaskItem[]
 }

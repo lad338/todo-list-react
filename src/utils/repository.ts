@@ -1,8 +1,8 @@
 import { ApiService } from '../hooks/api'
 import { IDBService } from '../hooks/idb'
-import ItemRepository from '../models/ItemRepository'
+import TaskRepository from '../models/TaskRepository'
 
-const getRepo = (isOnline: boolean): ItemRepository => {
+const getRepo = (isOnline: boolean): TaskRepository => {
   return isOnline ? ApiService : IDBService
 }
 

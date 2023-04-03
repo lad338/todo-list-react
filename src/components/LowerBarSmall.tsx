@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
 import {
-  loadItems,
+  loadTasks,
   setDeleteDialogOpen,
   setSearchQuery,
   useAppDispatch,
@@ -21,7 +21,7 @@ export const LowerBarSmall: React.FC = () => {
   const search = useMemo(() => {
     return debounce(async (q: string) => {
       dispatch(setSearchQuery(q))
-      dispatch(loadItems({ search: q }))
+      dispatch(loadTasks({ search: q }))
     }, 300)
   }, [dispatch])
 

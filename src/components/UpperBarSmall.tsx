@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import IconButton from '@mui/material/IconButton'
 import { selectOnline, useAppDispatch, useAppSelector } from '../hooks/redux'
-import { addItemAndRefresh } from '../hooks/app'
+import { addTaskAndRefresh } from '../hooks/app'
 import { useSnackbar } from 'notistack'
 
 export const UpperBarSmall: React.FC = () => {
@@ -12,12 +12,12 @@ export const UpperBarSmall: React.FC = () => {
   const isOnline = useAppSelector(selectOnline)
   const formRef = useRef<HTMLFormElement>(null)
   const { enqueueSnackbar } = useSnackbar()
-  const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    await addItemAndRefresh(dispatch, isOnline, formRef, event, enqueueSnackbar)
+  const handleAddTask = async (event: React.FormEvent<HTMLFormElement>) => {
+    await addTaskAndRefresh(dispatch, isOnline, formRef, event, enqueueSnackbar)
   }
 
   return (
-    <form onSubmit={handleAddItem} ref={formRef}>
+    <form onSubmit={handleAddTask} ref={formRef}>
       <Box
         width="100%"
         sx={{
@@ -27,7 +27,7 @@ export const UpperBarSmall: React.FC = () => {
       >
         <TextField
           sx={{ flexGrow: 1 }}
-          name="new-item-title"
+          name="new-task-title"
           label="Add task"
           variant="filled"
           size="small"

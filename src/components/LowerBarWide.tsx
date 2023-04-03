@@ -4,13 +4,13 @@ import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import Button from '@mui/material/Button'
 import {
-  loadItems,
+  loadTasks,
   selectOnline,
   setSearchQuery,
   useAppDispatch,
   useAppSelector,
 } from '../hooks/redux'
-import { addItemAndRefresh } from '../hooks/app'
+import { addTaskAndRefresh } from '../hooks/app'
 import { debounce } from '../utils/input'
 import { useSnackbar } from 'notistack'
 export const LowerBarWide: React.FC = () => {
@@ -18,14 +18,14 @@ export const LowerBarWide: React.FC = () => {
   const isOnline = useAppSelector(selectOnline)
   const formRef = useRef<HTMLFormElement>(null)
   const { enqueueSnackbar } = useSnackbar()
-  const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    await addItemAndRefresh(dispatch, isOnline, formRef, event, enqueueSnackbar)
+  const handleAddTask = async (event: React.FormEvent<HTMLFormElement>) => {
+    await addTaskAndRefresh(dispatch, isOnline, formRef, event, enqueueSnackbar)
   }
 
   const search = useMemo(() => {
     return debounce(async (q: string) => {
       dispatch(setSearchQuery(q))
-      dispatch(loadItems({ search: q }))
+      dispatch(loadTasks({ search: q }))
     }, 300)
   }, [dispatch])
 
@@ -42,12 +42,12 @@ export const LowerBarWide: React.FC = () => {
       }}
     >
       <Box
-        className="add-item-container"
+        className="add-task-container"
         style={{ flexDirection: 'row', display: 'flex', flexGrow: 1 }}
       >
-        <form onSubmit={handleAddItem} ref={formRef}>
+        <form onSubmit={handleAddTask} ref={formRef}>
           <TextField
-            name="new-item-title"
+            name="new-task-title"
             label="Add task"
             variant="filled"
             sx={{ width: 325 }}

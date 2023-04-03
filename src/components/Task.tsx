@@ -10,18 +10,18 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import TaskItem from '../models/TaskItem'
 import {
-  loadItems,
+  loadTasks,
   selectOnline,
   selectSearchQuery,
   useAppDispatch,
   useAppSelector,
 } from '../hooks/redux'
 import repository from '../utils/repository'
-import { ItemActions } from './ItemActions'
+import { TaskItemActions } from './TaskItemActions'
 import { useSnackbar } from 'notistack'
 import { trimTask } from '../utils/taskTItle'
 
-export const Item: React.FC<Props> = (props) => {
+export const Task: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
   const search = useAppSelector(selectSearchQuery)
   const isOnline = useAppSelector(selectOnline)
@@ -47,13 +47,13 @@ export const Item: React.FC<Props> = (props) => {
     setIsDelete(!isDelete)
   }
 
-  const handleDoneItem = async () => {
+  const handleDoneTask = async () => {
     try {
-      await repo.doneItem(props.item.id, !props.item.isDone)
-      dispatch(loadItems({ search }))
+      await repo.doneTask(props.task.id, !props.task.isDone)
+      dispatch(loadTasks({ search }))
       enqueueSnackbar(
-        `${!props.item.isDone ? 'Done' : 'Undone'} task ${trimTask(
-          props.item.title,
+        `${!props.task.isDone ? 'Done' : 'Undone'} task ${trimTask(
+          props.task.title,
           30
         )}`
       )
@@ -62,15 +62,15 @@ export const Item: React.FC<Props> = (props) => {
     }
   }
 
-  const handleUpdateItemTitle = async (e: FormEvent<HTMLFormElement>) => {
+  const handleUpdateTaskTitle = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const title = (formData.get('update-title') || '').toString().trim()
     if (title !== '') {
-      if (title !== props.item.title) {
+      if (title !== props.task.title) {
         try {
-          await repo.updateItemTitle(props.item.id, title)
-          dispatch(loadItems({ search }))
+          await repo.updateTaskTitle(props.task.id, title)
+          dispatch(loadTasks({ search }))
           enqueueSnackbar(`Successfully updated task to ${trimTask(title, 30)}`)
         } catch (e) {
           enqueueSnackbar(`Failed to update task`)
@@ -80,12 +80,12 @@ export const Item: React.FC<Props> = (props) => {
     }
   }
 
-  const handleDeleteItem = async () => {
+  const handleDeleteTask = async () => {
     try {
-      await repo.deleteOne(props.item.id)
-      dispatch(loadItems({ search }))
+      await repo.deleteOne(props.task.id)
+      dispatch(loadTasks({ search }))
       enqueueSnackbar(
-        `Successfully deleted task ${trimTask(props.item.title, 30)}`
+        `Successfully deleted task ${trimTask(props.task.title, 30)}`
       )
     } catch (e) {
       enqueueSnackbar(`Failed to delete task`)
@@ -94,18 +94,18 @@ export const Item: React.FC<Props> = (props) => {
 
   return (
     <ListItem sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <form style={{ width: '100%' }} onSubmit={handleUpdateItemTitle}>
+      <form style={{ width: '100%' }} onSubmit={handleUpdateTaskTitle}>
         <Box
-          className="item-upper-container"
+          className="task-container"
           sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}
         >
           <ListItemIcon sx={{ marginRight: -2 }}>
             <Checkbox
               sx={{ height: 40 }}
               edge="start"
-              checked={props.item.isDone}
+              checked={props.task.isDone}
               tabIndex={-1}
-              onClick={handleDoneItem}
+              onClick={handleDoneTask}
             />
           </ListItemIcon>
           {!isEdit && (
@@ -117,7 +117,7 @@ export const Item: React.FC<Props> = (props) => {
                 overflowX: 'scroll',
               }}
             >
-              {props.item.title}
+              {props.task.title}
             </Typography>
           )}
           {isEdit && (
@@ -131,15 +131,15 @@ export const Item: React.FC<Props> = (props) => {
               }}
               fullWidth={true}
               variant="filled"
-              placeholder={props.item.title}
-              defaultValue={props.item.title}
+              placeholder={props.task.title}
+              defaultValue={props.task.title}
               inputRef={updateTextField}
             />
           )}
 
           {!isEdit && !isDelete && (
             <Box
-              className="item-actions-container"
+              className="task-actions-container"
               sx={{
                 ml: 1,
                 right: 0,
@@ -158,14 +158,14 @@ export const Item: React.FC<Props> = (props) => {
           )}
 
           {isEdit && (
-            <ItemActions isSubmit={true} handleCancel={handleEditToggle} />
+            <TaskItemActions isSubmit={true} handleCancel={handleEditToggle} />
           )}
 
           {isDelete && (
-            <ItemActions
+            <TaskItemActions
               isSubmit={false}
               handleCancel={handleDeleteToggle}
-              handleClick={handleDeleteItem}
+              handleClick={handleDeleteTask}
             />
           )}
         </Box>
@@ -175,5 +175,5 @@ export const Item: React.FC<Props> = (props) => {
 }
 
 type Props = {
-  item: TaskItem
+  task: TaskItem
 }

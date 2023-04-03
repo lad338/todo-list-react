@@ -1,12 +1,12 @@
-import GetItemsResponse from '../models/GetItemsResponse'
-import ItemRepository from '../models/ItemRepository'
+import GetTasksResponse from '../models/GetTasksResponse'
+import TaskRepository from '../models/TaskRepository'
 
-const getItems = async (
+const getTasks = async (
   search?: string,
   skip?: number
-): Promise<GetItemsResponse> => {
+): Promise<GetTasksResponse> => {
   const result = await fetch(
-    `http://localhost:8000/items?title=${search || ''}&skip=${skip || ''}`,
+    `http://localhost:8000/tasks?title=${search || ''}&skip=${skip || ''}`,
     {}
   )
   const resultJson = await result.json()
@@ -29,20 +29,20 @@ const getItems = async (
   }
 }
 
-const deleteAllItems = async () => {
-  await fetch(`http://localhost:8000/items`, {
+const deleteAllTasks = async () => {
+  await fetch(`http://localhost:8000/tasks`, {
     method: 'DELETE',
   })
 }
 
 const deleteOne = async (id: string) => {
-  await fetch(`http://localhost:8000/items/${id}`, {
+  await fetch(`http://localhost:8000/tasks/${id}`, {
     method: 'DELETE',
   })
 }
 
-const addItem = async (title: string) => {
-  await fetch(`http://localhost:8000/items`, {
+const addTask = async (title: string) => {
+  await fetch(`http://localhost:8000/tasks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -53,8 +53,8 @@ const addItem = async (title: string) => {
   })
 }
 
-const doneItem = async (id: string, isDone: boolean) => {
-  await fetch(`http://localhost:8000/items/${id}`, {
+const doneTask = async (id: string, isDone: boolean) => {
+  await fetch(`http://localhost:8000/tasks/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -65,8 +65,8 @@ const doneItem = async (id: string, isDone: boolean) => {
   })
 }
 
-const updateItemTitle = async (id: string, title: string) => {
-  await fetch(`http://localhost:8000/items/${id}`, {
+const updateTaskTitle = async (id: string, title: string) => {
+  await fetch(`http://localhost:8000/tasks/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -86,11 +86,11 @@ export const healthCheck = async () => {
   }
 }
 
-export const ApiService: ItemRepository = {
-  addItem,
-  deleteAllItems,
+export const ApiService: TaskRepository = {
+  addTask: addTask,
+  deleteAllTasks,
   deleteOne,
-  doneItem,
-  getItems,
-  updateItemTitle,
+  doneTask: doneTask,
+  getTasks: getTasks,
+  updateTaskTitle: updateTaskTitle,
 }

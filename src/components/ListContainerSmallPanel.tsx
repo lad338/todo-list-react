@@ -15,7 +15,7 @@ export const ListContainerSmallPanel: React.FC<Props> = (props) => {
     >
       {value === index && (
         <Box sx={{ paddingTop: 1 }}>
-          <TaskList headerType={'none'} items={props.items} />
+          <TaskList headerType={'none'} tasks={props.tasks} />
         </Box>
       )}
     </Box>
@@ -23,7 +23,7 @@ export const ListContainerSmallPanel: React.FC<Props> = (props) => {
 }
 
 type Props = {
-  items: TaskItem[]
+  tasks: TaskItem[]
   dir?: string
   index: number
   value: number

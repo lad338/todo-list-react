@@ -20,10 +20,10 @@ export const ListContainerWide: React.FC = () => {
         className="undone-list-container"
         sx={{ width: '49.5%', marginRight: '1%' }}
       >
-        <TaskList headerType={'todo'} items={todoList} />
+        <TaskList headerType={'todo'} tasks={todoList} />
       </Box>
       <Box className="done-list-container" sx={{ width: '49.5%' }}>
-        <TaskList headerType={'done'} items={doneList} />
+        <TaskList headerType={'done'} tasks={doneList} />
       </Box>
     </Box>
   )

@@ -1,10 +1,10 @@
-export interface ItemEntity {
+export interface TaskEntity {
   id: string
   title: string
   doneTime?: number
 }
 
-export const NewItemEntity = (title: string): ItemEntity => {
+export const NewTask = (title: string): TaskEntity => {
   return {
     id: crypto.randomUUID(),
     title,

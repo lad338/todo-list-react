@@ -4,10 +4,10 @@ import DoneIcon from '@mui/icons-material/Done'
 import IconButton from '@mui/material/IconButton'
 import ClearIcon from '@mui/icons-material/Clear'
 
-export const ItemActions: React.FC<Props> = (props) => {
+export const TaskItemActions: React.FC<Props> = (props) => {
   return (
     <Box
-      className="item-confirm-actions-container"
+      className="task-confirm-actions-container"
       sx={{ display: 'flex', flexDirection: 'row', maxHeight: 40, ml: 1 }}
     >
       <IconButton

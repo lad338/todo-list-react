@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import {
-  initItems,
+  initTasks,
   selectDeleteDialog,
   selectOnline,
   setDeleteDialogOpen,
@@ -28,12 +28,12 @@ export const DeleteAllDialog: React.FC = () => {
 
   const handleDeleteAll = async () => {
     try {
-      await repo.deleteAllItems()
+      await repo.deleteAllTasks()
       enqueueSnackbar('Successfully deleted all tasks')
     } catch (e) {
       enqueueSnackbar('Failed to deleted all tasks', { variant: 'warning' })
     }
-    dispatch(initItems())
+    dispatch(initTasks())
     handleClose()
   }
   return (

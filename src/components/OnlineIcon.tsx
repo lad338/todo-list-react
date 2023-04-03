@@ -1,7 +1,7 @@
 import React from 'react'
 import IconButton from '@mui/material/IconButton'
 import {
-  initItems,
+  initTasks,
   selectOnline,
   setOnline,
   useAppDispatch,
@@ -21,13 +21,13 @@ export const OnlineIcon: React.FC = () => {
     if (isOnline) {
       enqueueSnackbar('Turning to offline mode')
       dispatch(setOnline(false))
-      dispatch(initItems())
+      dispatch(initTasks())
     } else {
       checkOnline().then((isBackendAvailable) => {
         if (isBackendAvailable) {
           enqueueSnackbar('Turning to online mode')
           dispatch(setOnline(true))
-          dispatch(initItems())
+          dispatch(initTasks())
         } else {
           enqueueSnackbar('Backend unavailable. Using offline mode', {
             variant: 'error',

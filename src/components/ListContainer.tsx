@@ -3,8 +3,8 @@ import Container from '@mui/material/Container'
 import { ListContainerWide } from './ListContainerWide'
 import { ListContainerSmall } from './ListContainerSmall'
 import {
-  initItems,
-  loadMoreItems,
+  initTasks,
+  loadMoreTasks,
   selectHasMore,
   selectSearchQuery,
   selectSkip,
@@ -31,7 +31,7 @@ export const ListContainer: React.FC = () => {
         })
       }
       dispatch(setOnline(isBackendAvailable))
-      dispatch(initItems())
+      dispatch(initTasks())
     })
   }, [dispatch, enqueueSnackbar])
 
@@ -48,7 +48,7 @@ export const ListContainer: React.FC = () => {
       const scrolledToBottom =
         Math.ceil(scrollTop + clientHeight) >= scrollHeight
       if (scrolledToBottom && hasMore) {
-        dispatch(loadMoreItems({ search, skip: skip + 15 }))
+        dispatch(loadMoreTasks({ search, skip: skip + 15 }))
         dispatch(setSkip(15 + skip))
       }
     }

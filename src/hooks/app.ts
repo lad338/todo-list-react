@@ -1,11 +1,11 @@
 import React from 'react'
 import { ApiService, healthCheck } from './api'
-import { initItems } from './redux'
+import { initTasks } from './redux'
 import { IDBService } from './idb'
 import { EnqueueSnackbar } from 'notistack'
 import { trimTask } from '../utils/taskTItle'
 
-export const addItemAndRefresh = async (
+export const addTaskAndRefresh = async (
   dispatch: any,
   isOnline: boolean,
   formRef: React.RefObject<HTMLFormElement>,
@@ -14,12 +14,12 @@ export const addItemAndRefresh = async (
 ) => {
   event.preventDefault()
   const formData = new FormData(event.currentTarget)
-  const title = (formData.get('new-item-title') || '').toString().trim()
+  const title = (formData.get('new-task-title') || '').toString().trim()
   if (title !== '') {
     const repo = isOnline ? ApiService : IDBService
-    await repo.addItem(title)
+    await repo.addTask(title)
     formRef.current?.reset()
-    dispatch(initItems())
+    dispatch(initTasks())
     enqueueSnackbar(`Added Task: ${trimTask(title, 30)}`)
   }
 }

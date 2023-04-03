@@ -1,61 +1,61 @@
 import Dexie, { Table } from 'dexie'
-import { ItemEntity, NewItemEntity } from '../models/idb/ItemEntity'
-import ItemRepository from '../models/ItemRepository'
-import GetItemsResponse from '../models/GetItemsResponse'
+import { TaskEntity, NewTask } from '../models/idb/TaskEntity'
+import TaskRepository from '../models/TaskRepository'
+import GetTasksResponse from '../models/GetTasksResponse'
 
 class DexieDB extends Dexie {
-  item!: Table<ItemEntity>
+  task!: Table<TaskEntity>
 
   constructor() {
     super('todo-list')
     this.version(1).stores({
-      item: '&id, title, doneTime',
+      task: '&id, title, doneTime',
     })
   }
 }
 
 export const DB = new DexieDB()
-const addItem = async (title: string) => {
-  await DB.item.add(NewItemEntity(title))
+const addTask = async (title: string) => {
+  await DB.task.add(NewTask(title))
 }
-const deleteAllItems = async () => {
-  await DB.item.clear()
+const deleteAllTasks = async () => {
+  await DB.task.clear()
 }
 
 const deleteOne = async (id: string) => {
-  await DB.item.delete(id)
+  await DB.task.delete(id)
 }
 
-const doneItem = async (id: string, isDone: boolean) => {
-  await DB.item.update(id, { doneTime: isDone ? Date.now() : undefined })
+const doneTask = async (id: string, isDone: boolean) => {
+  await DB.task.update(id, { doneTime: isDone ? Date.now() : undefined })
 }
 
-const getItems = async (
+const getTasks = async (
   search?: string,
   skip?: number
-): Promise<GetItemsResponse> => {
-  const filter = (item: ItemEntity) => {
+): Promise<GetTasksResponse> => {
+  const filter = (task: TaskEntity) => {
     return (
-      item.doneTime === undefined &&
+      task.doneTime === undefined &&
       (search === undefined ||
-        item.title.toLowerCase().startsWith(search.toLowerCase()))
+        task.title.toLowerCase().startsWith(search.toLowerCase()))
     )
   }
 
-  const count = await DB.item
+  const count = await DB.task
     .where('title')
     .startsWith(search || '')
-    .filter((item) => item.doneTime === undefined)
+    .filter((task) => task.doneTime === undefined)
     .count()
 
   const todoTemp = skip
-    ? await DB.item
+    ? await DB.task
         .orderBy('title')
         .filter(filter)
         .offset(skip)
         .limit(15)
         .toArray()
-    : await DB.item.orderBy('title').filter(filter).limit(15).toArray()
+    : await DB.task.orderBy('title').filter(filter).limit(15).toArray()
 
   const todoItems = todoTemp.map((it) => ({
     id: it.id,
@@ -64,14 +64,14 @@ const getItems = async (
   }))
 
   const doneItems = (
-    await DB.item
+    await DB.task
       .orderBy('doneTime')
       .reverse()
       .filter(
-        (item) =>
-          item.doneTime !== undefined &&
+        (task) =>
+          task.doneTime !== undefined &&
           (search === undefined ||
-            item.title.toLowerCase().startsWith(search.toLowerCase()))
+            task.title.toLowerCase().startsWith(search.toLowerCase()))
       )
       .limit(10)
       .toArray()
@@ -84,15 +84,15 @@ const getItems = async (
   }
 }
 
-const updateItemTitle = async (id: string, title: string) => {
-  await DB.item.update(id, { title })
+const updateTaskTitle = async (id: string, title: string) => {
+  await DB.task.update(id, { title })
 }
 
-export const IDBService: ItemRepository = {
-  addItem,
-  deleteAllItems,
+export const IDBService: TaskRepository = {
+  addTask,
+  deleteAllTasks,
   deleteOne,
-  doneItem,
-  getItems,
-  updateItemTitle,
+  doneTask,
+  getTasks,
+  updateTaskTitle,
 }

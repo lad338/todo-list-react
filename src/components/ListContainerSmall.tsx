@@ -45,13 +45,13 @@ export const ListContainerSmall: React.FC = () => {
         value={value}
         index={0}
         dir={theme.direction}
-        items={todoList}
+        tasks={todoList}
       />
       <ListContainerSmallPanel
         value={value}
         index={1}
         dir={theme.direction}
-        items={doneList}
+        tasks={doneList}
       />
     </Box>
   )

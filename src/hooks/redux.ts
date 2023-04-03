@@ -6,7 +6,7 @@ import {
 } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { initialAppState } from '../models/AppState'
-import GetItemsResponse from '../models/GetItemsResponse'
+import GetTasksResponse from '../models/GetTasksResponse'
 import repository from '../utils/repository'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -46,13 +46,13 @@ export const appStateSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadItems.fulfilled, (state, action) => {
+    builder.addCase(loadTasks.fulfilled, (state, action) => {
       state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = action.payload.todoList
       state.todoHasMore = action.payload.hasMore
       state.todoSkip = 0
     })
-    builder.addCase(loadMoreItems.fulfilled, (state, action) => {
+    builder.addCase(loadMoreTasks.fulfilled, (state, action) => {
       state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = [
         ...state.taskLists.todoList,
@@ -60,7 +60,7 @@ export const appStateSlice = createSlice({
       ]
       state.todoHasMore = action.payload.hasMore
     })
-    builder.addCase(initItems.fulfilled, (state, action) => {
+    builder.addCase(initTasks.fulfilled, (state, action) => {
       state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = action.payload.todoList
       state.todoHasMore = action.payload.hasMore
@@ -78,40 +78,40 @@ export const {
   setOnline,
 } = appStateSlice.actions
 
-export const loadItems = createAsyncThunk<
-  GetItemsResponse,
+export const loadTasks = createAsyncThunk<
+  GetTasksResponse,
   { search?: string },
   {
     state: RootState
   }
->('appState/loadItems', async (query: { search?: string }, thunk) => {
+>('appState/loadTasks', async (query: { search?: string }, thunk) => {
   const repo = repository(thunk.getState().appState.isOnline)
-  return await repo.getItems(query.search)
+  return await repo.getTasks(query.search)
 })
 
-export const loadMoreItems = createAsyncThunk<
-  GetItemsResponse,
+export const loadMoreTasks = createAsyncThunk<
+  GetTasksResponse,
   { search?: string; skip: number },
   {
     state: RootState
   }
 >(
-  'appState/loadMoreItems',
+  'appState/loadMoreTasks',
   async (query: { search?: string; skip: number }, thunk) => {
     const repo = repository(thunk.getState().appState.isOnline)
-    return await repo.getItems(query.search, query.skip)
+    return await repo.getTasks(query.search, query.skip)
   }
 )
 
-export const initItems = createAsyncThunk<
-  GetItemsResponse,
+export const initTasks = createAsyncThunk<
+  GetTasksResponse,
   undefined,
   {
     state: RootState
   }
->('appState/initItems', async (arg, thunk) => {
+>('appState/initTasks', async (arg, thunk) => {
   const repo = repository(thunk.getState().appState.isOnline)
-  return await repo.getItems()
+  return await repo.getTasks()
 })
 
 export const store = configureStore({
