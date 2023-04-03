@@ -15,15 +15,18 @@ import TextField from '@mui/material/TextField'
 import TaskItem from '../models/TaskItem'
 import {
   loadItems,
+  selectOnline,
   selectSearchQuery,
   useAppDispatch,
   useAppSelector,
 } from '../hooks/redux'
-import { deleteOne, doneItem, updateItemTitle } from '../hooks/api'
+import repository from '../utils/repository'
 
 export const Item: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
   const search = useAppSelector(selectSearchQuery)
+  const isOnline = useAppSelector(selectOnline)
+  const repo = repository(isOnline)
 
   const [isExpanded, setIsExpanded] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -48,7 +51,7 @@ export const Item: React.FC<Props> = (props) => {
   }
 
   const handleDoneItem = async () => {
-    await doneItem(props.item.id, !props.item.isDone)
+    await repo.doneItem(props.item.id, !props.item.isDone)
     dispatch(loadItems({ search }))
   }
 
@@ -58,7 +61,7 @@ export const Item: React.FC<Props> = (props) => {
     const title = (formData.get('update-title') || '').toString().trim()
     if (title !== '') {
       if (title !== props.item.title) {
-        await updateItemTitle(props.item.id, title)
+        await repo.updateItemTitle(props.item.id, title)
         dispatch(loadItems({ search }))
       }
       handleEditToggle()
@@ -66,7 +69,7 @@ export const Item: React.FC<Props> = (props) => {
   }
 
   const handleDeleteItem = async () => {
-    await deleteOne(props.item.id)
+    await repo.deleteOne(props.item.id)
     dispatch(loadItems({ search }))
   }
 

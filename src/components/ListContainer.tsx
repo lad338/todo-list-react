@@ -8,10 +8,12 @@ import {
   selectHasMore,
   selectSearchQuery,
   selectSkip,
+  setOnline,
   setSkip,
   useAppDispatch,
   useAppSelector,
 } from '../hooks/redux'
+import { checkOnline } from '../hooks/app'
 
 export const ListContainer: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -20,7 +22,12 @@ export const ListContainer: React.FC = () => {
   const search = useAppSelector(selectSearchQuery)
 
   useEffect(() => {
-    dispatch(initItems())
+    checkOnline().then((isOnline) => {
+      console.log(isOnline)
+      dispatch(setOnline(isOnline))
+      dispatch(initItems())
+      //TODO handle not online message
+    })
   }, [dispatch])
 
   useEffect(() => {

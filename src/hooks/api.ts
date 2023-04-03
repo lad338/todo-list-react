@@ -1,6 +1,7 @@
 import GetItemsResponse from '../models/GetItemsResponse'
+import ItemRepository from '../models/ItemRepository'
 
-export const getItems = async (
+const getItems = async (
   search?: string,
   skip?: number
 ): Promise<GetItemsResponse> => {
@@ -28,19 +29,19 @@ export const getItems = async (
   }
 }
 
-export const deleteAllItems = async () => {
+const deleteAllItems = async () => {
   await fetch(`http://localhost:8000/items`, {
     method: 'DELETE',
   })
 }
 
-export const deleteOne = async (id: string) => {
+const deleteOne = async (id: string) => {
   await fetch(`http://localhost:8000/items/${id}`, {
     method: 'DELETE',
   })
 }
 
-export const addItem = async (title: string) => {
+const addItem = async (title: string) => {
   await fetch(`http://localhost:8000/items`, {
     method: 'POST',
     headers: {
@@ -52,7 +53,7 @@ export const addItem = async (title: string) => {
   })
 }
 
-export const doneItem = async (id: string, isDone: boolean) => {
+const doneItem = async (id: string, isDone: boolean) => {
   await fetch(`http://localhost:8000/items/${id}`, {
     method: 'PATCH',
     headers: {
@@ -64,7 +65,7 @@ export const doneItem = async (id: string, isDone: boolean) => {
   })
 }
 
-export const updateItemTitle = async (id: string, title: string) => {
+const updateItemTitle = async (id: string, title: string) => {
   await fetch(`http://localhost:8000/items/${id}`, {
     method: 'PATCH',
     headers: {
@@ -74,4 +75,22 @@ export const updateItemTitle = async (id: string, title: string) => {
       title,
     }),
   })
+}
+
+export const healthCheck = async () => {
+  try {
+    const health = await fetch(`http://localhost:8000/health`)
+    return health.status === 200
+  } catch (e) {
+    return false
+  }
+}
+
+export const ApiService: ItemRepository = {
+  addItem,
+  deleteAllItems,
+  deleteOne,
+  doneItem,
+  getItems,
+  updateItemTitle,
 }

@@ -5,24 +5,27 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
-import { deleteAllItems } from '../hooks/api'
 import {
   initItems,
   selectDeleteDialog,
+  selectOnline,
   setDeleteDialogOpen,
   useAppDispatch,
   useAppSelector,
 } from '../hooks/redux'
+import repository from '../utils/repository'
 
 export const DeleteAllDialog: React.FC = () => {
   const dispatch = useAppDispatch()
   const isOpen = useAppSelector(selectDeleteDialog)
+  const isOnline = useAppSelector(selectOnline)
+  const repo = repository(isOnline)
   const handleClose = () => {
     dispatch(setDeleteDialogOpen(false))
   }
 
   const handleDeleteAll = async () => {
-    await deleteAllItems()
+    await repo.deleteAllItems()
     dispatch(initItems())
     handleClose()
   }

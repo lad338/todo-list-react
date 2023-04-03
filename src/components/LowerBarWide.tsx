@@ -3,13 +3,20 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import Button from '@mui/material/Button'
-import { loadItems, setSearchQuery, useAppDispatch } from '../hooks/redux'
+import {
+  loadItems,
+  selectOnline,
+  setSearchQuery,
+  useAppDispatch,
+  useAppSelector,
+} from '../hooks/redux'
 import { addItemAndRefresh } from '../hooks/app'
 import { debounce } from '../utils/input'
 export const LowerBarWide: React.FC = () => {
   const dispatch = useAppDispatch()
+  const isOnline = useAppSelector(selectOnline)
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    await addItemAndRefresh(dispatch, event)
+    await addItemAndRefresh(dispatch, isOnline, event)
   }
 
   const search = useMemo(() => {

@@ -7,6 +7,7 @@ export type AppState = {
   todoHasMore: boolean
   todoSkip: number
   isDarkMode: boolean
+  isOnline: boolean
 }
 
 export const initialAppState: AppState = {
@@ -18,4 +19,5 @@ export const initialAppState: AppState = {
   todoHasMore: false,
   todoSkip: 0,
   isDarkMode: false,
+  isOnline: true,
 }

@@ -11,7 +11,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../hooks/redux'
-
+import { SnackbarProvider } from 'notistack'
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
   const isDarkMode = useAppSelector(selectDarkMode)
@@ -35,11 +35,13 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div className="App">
-        <DeleteAllDialog />
-        <AppBarCustomized />
-        <ListContainer />
-      </div>
+      <SnackbarProvider maxSnack={3}>
+        <div className="App">
+          <DeleteAllDialog />
+          <AppBarCustomized />
+          <ListContainer />
+        </div>
+      </SnackbarProvider>
     </ThemeProvider>
   )
 }

@@ -3,13 +3,14 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import IconButton from '@mui/material/IconButton'
-import { useAppDispatch } from '../hooks/redux'
+import { selectOnline, useAppDispatch, useAppSelector } from '../hooks/redux'
 import { addItemAndRefresh } from '../hooks/app'
 
 export const UpperBarSmall: React.FC = () => {
   const dispatch = useAppDispatch()
+  const isOnline = useAppSelector(selectOnline)
   const handleAddItem = async (event: React.FormEvent<HTMLFormElement>) => {
-    await addItemAndRefresh(dispatch, event)
+    await addItemAndRefresh(dispatch, isOnline, event)
   }
 
   return (

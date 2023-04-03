@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { setDeleteDialogOpen, useAppDispatch } from '../hooks/redux'
 import { DarkModeButton } from './DarkModeButton'
+import { OnlineIcon } from './OnlineIcon'
 
 export const UpperBarWide: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -17,9 +18,11 @@ export const UpperBarWide: React.FC = () => {
       width="100%"
       sx={{ display: { xs: 'none', md: 'flex' }, flexDirection: 'row' }}
     >
-      <Typography variant="h2" sx={{ flexGrow: 1 }}>
-        Marvelous v2.0
-      </Typography>
+      <Box sx={{ flexGrow: 1, flexDirection: 'row', display: 'flex' }}>
+        <Typography variant="h2">Marvelous v2.0</Typography>
+        <OnlineIcon />
+      </Box>
+
       <Box
         sx={{
           display: 'flex',

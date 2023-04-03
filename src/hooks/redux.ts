@@ -5,10 +5,12 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { getItems } from './api'
 import { initialAppState } from '../models/AppState'
+import GetItemsResponse from '../models/GetItemsResponse'
+import repository from '../utils/repository'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
+
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const selectTodoList = (state: RootState) =>
@@ -21,6 +23,7 @@ export const selectSearchQuery = (state: RootState) => state.appState.search
 export const selectHasMore = (state: RootState) => state.appState.todoHasMore
 export const selectSkip = (state: RootState) => state.appState.todoSkip
 export const selectDarkMode = (state: RootState) => state.appState.isDarkMode
+export const selectOnline = (state: RootState) => state.appState.isOnline
 
 export const appStateSlice = createSlice({
   name: 'app',
@@ -38,6 +41,9 @@ export const appStateSlice = createSlice({
     setDarkMode: (state, action: PayloadAction<boolean>) => {
       state.isDarkMode = action.payload
     },
+    setOnline: (state, action: PayloadAction<boolean>) => {
+      state.isOnline = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loadItems.fulfilled, (state, action) => {
@@ -54,6 +60,11 @@ export const appStateSlice = createSlice({
       ]
       state.todoHasMore = action.payload.hasMore
     })
+    // TODO remove
+    // builder.addCase(initItems.pending, (state) => {
+    //   console.log('init')
+    //   console.log(state.isOnline)
+    // })
     builder.addCase(initItems.fulfilled, (state, action) => {
       state.taskLists.doneList = action.payload.doneList
       state.taskLists.todoList = action.payload.todoList
@@ -64,31 +75,54 @@ export const appStateSlice = createSlice({
   },
 })
 
-export const { setDeleteDialogOpen, setSearchQuery, setSkip, setDarkMode } =
-  appStateSlice.actions
+export const {
+  setDeleteDialogOpen,
+  setSearchQuery,
+  setSkip,
+  setDarkMode,
+  setOnline,
+} = appStateSlice.actions
 
-export const loadItems = createAsyncThunk(
-  'appState/loadItems',
-  async (query: { search?: string }) => {
-    return await getItems(query.search)
+export const loadItems = createAsyncThunk<
+  GetItemsResponse,
+  { search?: string },
+  {
+    state: RootState
   }
-)
-
-export const loadMoreItems = createAsyncThunk(
-  'appState/loadMoreItems',
-  async (query: { search?: string; skip: number }) => {
-    return await getItems(query.search, query.skip)
-  }
-)
-
-export const initItems = createAsyncThunk('appState/initItems', async () => {
-  return await getItems()
+>('appState/loadItems', async (query: { search?: string }, thunk) => {
+  const repo = repository(thunk.getState().appState.isOnline)
+  return await repo.getItems(query.search)
 })
+
+export const loadMoreItems = createAsyncThunk<
+  GetItemsResponse,
+  { search?: string; skip: number },
+  {
+    state: RootState
+  }
+>(
+  'appState/loadMoreItems',
+  async (query: { search?: string; skip: number }, thunk) => {
+    const repo = repository(thunk.getState().appState.isOnline)
+    return await repo.getItems(query.search, query.skip)
+  }
+)
+
+export const initItems = createAsyncThunk<
+  GetItemsResponse,
+  undefined,
+  {
+    state: RootState
+  }
+>('appState/initItems', async (arg, thunk) => {
+  const repo = repository(thunk.getState().appState.isOnline)
+  return await repo.getItems()
+})
+
 export const store = configureStore({
   reducer: {
     appState: appStateSlice.reducer,
   },
-  devTools: process.env.NODE_ENV !== 'production',
 })
 
 export type AppDispatch = typeof store.dispatch

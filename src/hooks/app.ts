@@ -1,16 +1,23 @@
 import React from 'react'
-import { addItem } from './api'
+import { ApiService, healthCheck } from './api'
 import { initItems } from './redux'
+import { IDBService } from './idb'
 
 export const addItemAndRefresh = async (
   dispatch: any,
+  isOnline: boolean,
   event: React.FormEvent<HTMLFormElement>
 ) => {
   event.preventDefault()
   const formData = new FormData(event.currentTarget)
   const title = (formData.get('new-item-title') || '').toString().trim()
   if (title !== '') {
-    await addItem(title)
+    const repo = isOnline ? ApiService : IDBService
+    await repo.addItem(title)
     dispatch(initItems())
   }
+}
+
+export const checkOnline = async () => {
+  return healthCheck()
 }
