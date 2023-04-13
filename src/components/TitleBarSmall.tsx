@@ -15,7 +15,7 @@ export const TitleBarSmall: React.FC = () => {
       <Box sx={{ margin: 'auto', display: 'flex', flexDirection: 'row' }}>
         <OnlineIcon />
         <Typography sx={{ margin: 'auto' }} textAlign="center">
-          Marvelous v2.0
+          TODO LIST
         </Typography>
         <DarkModeButton />
       </Box>

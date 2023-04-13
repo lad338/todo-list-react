@@ -20,7 +20,7 @@ export const UpperBarWide: React.FC = () => {
     >
       <Box sx={{ flexGrow: 1, flexDirection: 'row', display: 'flex' }}>
         <Typography variant="h2" sx={{ fontSize: 50, my: 'auto' }}>
-          Marvelous v2.0
+          TODO LIST
         </Typography>
         <OnlineIcon />
       </Box>
