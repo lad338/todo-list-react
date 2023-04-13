@@ -23,7 +23,7 @@ export const selectSearchQuery = (state: RootState) => state.appState.search
 export const selectHasMore = (state: RootState) => state.appState.todoHasMore
 export const selectSkip = (state: RootState) => state.appState.todoSkip
 export const selectDarkMode = (state: RootState) => state.appState.isDarkMode
-export const selectOnline = (state: RootState) => state.appState.isOnline
+export const selectOnline = (state: RootState) => false
 
 export const appStateSlice = createSlice({
   name: 'app',
@@ -42,7 +42,7 @@ export const appStateSlice = createSlice({
       state.isDarkMode = action.payload
     },
     setOnline: (state, action: PayloadAction<boolean>) => {
-      state.isOnline = action.payload
+      state.isOnline = false
     },
   },
   extraReducers: (builder) => {

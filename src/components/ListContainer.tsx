@@ -24,15 +24,8 @@ export const ListContainer: React.FC = () => {
   const search = useAppSelector(selectSearchQuery)
 
   useEffect(() => {
-    checkOnline().then((isBackendAvailable) => {
-      if (!isBackendAvailable) {
-        enqueueSnackbar('Backend unavailable. Using offline mode', {
-          variant: 'error',
-        })
-      }
-      dispatch(setOnline(isBackendAvailable))
-      dispatch(initTasks())
-    })
+    dispatch(setOnline(false))
+    dispatch(initTasks())
   }, [dispatch, enqueueSnackbar])
 
   useEffect(() => {

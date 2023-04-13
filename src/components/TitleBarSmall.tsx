@@ -13,7 +13,7 @@ export const TitleBarSmall: React.FC = () => {
       }}
     >
       <Box sx={{ margin: 'auto', display: 'flex', flexDirection: 'row' }}>
-        <OnlineIcon />
+        {/*<OnlineIcon />*/}
         <Typography sx={{ margin: 'auto' }} textAlign="center">
           TODO LIST
         </Typography>

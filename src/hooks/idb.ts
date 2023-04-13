@@ -9,7 +9,7 @@ class DexieDB extends Dexie {
   constructor() {
     super('todo-list')
     this.version(1).stores({
-      task: '&id, lowerCaseTitle, doneTime',
+      task: '&id, &lowerCaseTitle, doneTime',
     })
   }
 }

@@ -22,7 +22,7 @@ export const UpperBarWide: React.FC = () => {
         <Typography variant="h2" sx={{ fontSize: 50, my: 'auto' }}>
           TODO LIST
         </Typography>
-        <OnlineIcon />
+        {/*<OnlineIcon />*/}
       </Box>
 
       <Box
